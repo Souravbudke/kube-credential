@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  issuance-service:
+    build: ./services/issuance-service
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - SERVICE_NAME=issuance-service
+    volumes:
+      - ./services/issuance-service/data:/app/data
+
+  verification-service:
+    build: ./services/verification-service
+    ports:
+      - "3002:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - SERVICE_NAME=verification-service
+      - ISSUANCE_SERVICE_URL=http://issuance-service:3000
+    volumes:
+      - ./services/verification-service/data:/app/data
+    depends_on:
+      - issuance-service
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_ISSUANCE_API_URL=http://localhost:3001
+      - REACT_APP_VERIFICATION_API_URL=http://localhost:3002
+    depends_on:
+      - issuance-service
+      - verification-service

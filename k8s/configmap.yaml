@@ -1,0 +1,12 @@
+# ConfigMap for application configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kube-credential-config
+  namespace: kube-credential
+data:
+  NODE_ENV: "production"
+  ISSUANCE_SERVICE_URL: "http://issuance-service:3000"
+  VERIFICATION_SERVICE_URL: "http://verification-service:3000"
+  REACT_APP_ISSUANCE_API_URL: "http://issuance-service:3000"
+  REACT_APP_VERIFICATION_API_URL: "http://verification-service:3000"

@@ -1,0 +1,26 @@
+# Persistent Volume Claims for SQLite data
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: issuance-data-pvc
+  namespace: kube-credential
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: hostpath
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: verification-data-pvc
+  namespace: kube-credential
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: hostpath

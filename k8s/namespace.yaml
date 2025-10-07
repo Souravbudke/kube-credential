@@ -1,0 +1,7 @@
+# Namespace for the Kube Credential application
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kube-credential
+  labels:
+    app: kube-credential
