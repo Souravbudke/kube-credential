@@ -1,6 +1,7 @@
 import sqlite3 from 'sqlite3';
 import { Database } from 'sqlite3';
 import path from 'path';
+import fs from 'fs';
 import { IssuedCredential } from '../types';
 
 export class DatabaseService {
@@ -8,7 +9,19 @@ export class DatabaseService {
   private dbPath: string;
 
   constructor() {
-    this.dbPath = path.join(process.cwd(), 'data', 'credentials.db');
+    // Use environment variable if provided, otherwise default to local path
+    const dataDir = process.env.DATABASE_PATH 
+      ? path.dirname(process.env.DATABASE_PATH)
+      : path.join(process.cwd(), 'data');
+    
+    this.dbPath = process.env.DATABASE_PATH || path.join(dataDir, 'credentials.db');
+    
+    // Ensure data directory exists
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    
+    console.log(`Database initialized at: ${this.dbPath}`);
     this.db = new sqlite3.Database(this.dbPath);
     this.initializeDatabase();
   }
