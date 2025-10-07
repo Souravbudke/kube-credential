@@ -46,6 +46,46 @@ export default {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
       },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'float-delayed': 'float-delayed 8s ease-in-out infinite',
+        'gradient': 'gradient 8s ease-in-out infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': {
+            transform: 'translateY(0px) rotate(0deg)',
+          },
+          '33%': {
+            transform: 'translateY(-20px) rotate(2deg)',
+          },
+          '66%': {
+            transform: 'translateY(-10px) rotate(-1deg)',
+          },
+        },
+        'float-delayed': {
+          '0%, 100%': {
+            transform: 'translateY(0px) rotate(0deg)',
+          },
+          '33%': {
+            transform: 'translateY(-15px) rotate(-1deg)',
+          },
+          '66%': {
+            transform: 'translateY(-25px) rotate(1deg)',
+          },
+        },
+        gradient: {
+          '0%': {
+            'background-position': '0% 50%',
+          },
+          '50%': {
+            'background-position': '100% 50%',
+          },
+          '100%': {
+            'background-position': '0% 50%',
+          },
+        },
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
