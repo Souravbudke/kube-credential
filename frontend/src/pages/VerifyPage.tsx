@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CheckCircle, AlertCircle, Search, User, Calendar, Building, FileText, Sparkles, Scan, Code, Eye } from 'lucide-react';
+import { AlertCircle, Search, User, Calendar, Building, FileText, Sparkles, Scan, Code, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -41,35 +41,36 @@ export default function VerifyPage() {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!credentialData.id.trim()) {
-      newErrors.id = 'Credential ID is required';
-    }
-    if (!credentialData.holderName.trim()) {
-      newErrors.holderName = 'Holder name is required';
-    }
-    if (!credentialData.issuerName.trim()) {
-      newErrors.issuerName = 'Issuer name is required';
-    }
-
-    // Validate JSON in custom data
-    if (credentialData.customData.trim()) {
-      try {
-        JSON.parse(credentialData.customData);
-      } catch (error) {
-        newErrors.customData = 'Invalid JSON format';
+    if (inputMethod === 'json') {
+      // Validate JSON input method only
+      if (!jsonInput.trim()) {
+        newErrors.jsonInput = 'JSON input is required';
+      } else {
+        try {
+          JSON.parse(jsonInput);
+        } catch (error) {
+          newErrors.jsonInput = 'Invalid JSON format';
+        }
       }
-    }
+    } else {
+      // Validate form input method only
+      if (!credentialData.id.trim()) {
+        newErrors.id = 'Credential ID is required';
+      }
+      if (!credentialData.holderName.trim()) {
+        newErrors.holderName = 'Holder name is required';
+      }
+      if (!credentialData.issuerName.trim()) {
+        newErrors.issuerName = 'Issuer name is required';
+      }
 
-    // Validate JSON input method
-    if (inputMethod === 'json' && !jsonInput.trim()) {
-      newErrors.jsonInput = 'JSON input is required';
-    }
-
-    if (inputMethod === 'json' && jsonInput.trim()) {
-      try {
-        JSON.parse(jsonInput);
-      } catch (error) {
-        newErrors.jsonInput = 'Invalid JSON format';
+      // Validate JSON in custom data
+      if (credentialData.customData.trim()) {
+        try {
+          JSON.parse(credentialData.customData);
+        } catch (error) {
+          newErrors.customData = 'Invalid JSON format';
+        }
       }
     }
 
@@ -305,18 +306,18 @@ export default function VerifyPage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="issueDate" className="text-sm font-medium">
+                        <Label htmlFor="issueDate" className="text-sm font-medium flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-emerald-600" />
                           Issue Date *
                         </Label>
-                        <div className="relative">
-                          <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                          <Input
+                        <div className="relative group">
+                          <input
                             id="issueDate"
                             name="issueDate"
                             type="datetime-local"
                             value={credentialData.issueDate}
                             onChange={handleInputChange}
-                            className={`h-12 pl-10 transition-all duration-200 ${errors.issueDate ? 'border-red-500' : 'focus:border-emerald-500'}`}
+                            className={`w-full h-12 px-4 rounded-md border bg-white text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.issueDate ? 'border-red-500' : 'border-gray-300 hover:border-gray-400'}`}
                           />
                         </div>
                         {errors.issueDate && (
@@ -328,18 +329,18 @@ export default function VerifyPage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="expiryDate" className="text-sm font-medium">
+                        <Label htmlFor="expiryDate" className="text-sm font-medium flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-purple-600" />
                           Expiry Date
                         </Label>
-                        <div className="relative">
-                          <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                          <Input
+                        <div className="relative group">
+                          <input
                             id="expiryDate"
                             name="expiryDate"
                             type="datetime-local"
                             value={credentialData.expiryDate}
                             onChange={handleInputChange}
-                            className={`h-12 pl-10 transition-all duration-200 ${errors.expiryDate ? 'border-red-500' : 'focus:border-emerald-500'}`}
+                            className={`w-full h-12 px-4 rounded-md border bg-white text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 ${errors.expiryDate ? 'border-red-500' : 'border-gray-300 hover:border-gray-400'}`}
                           />
                         </div>
                       </div>
@@ -496,98 +497,101 @@ export default function VerifyPage() {
 
       {/* Result Display */}
       {result && (
-        <Alert className={`${result.isValid ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'} shadow-lg`}>
-          {result.isValid ? (
-            <CheckCircle className="h-6 w-6 text-green-600" />
-          ) : (
-            <AlertCircle className="h-6 w-6 text-red-600" />
-          )}
-          <AlertDescription className="text-base">
-            <div className={`font-medium ${result.isValid ? 'text-green-800' : 'text-red-800'} mb-3`}>
-              {result.message}
+        <Alert className={`shadow-md ${result.isValid ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50'}`}>
+          <AlertDescription className="space-y-4">
+            <div className={`text-lg font-semibold ${result.isValid ? 'text-green-700' : 'text-red-700'}`}>
+              {result.isValid ? 'Credential Verified Successfully' : 'Credential Verification Failed'}
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4 text-sm mb-4">
-              <div className="flex justify-between items-center p-3 bg-white/60 rounded-lg">
-                <span className="font-medium text-gray-700">Verified By:</span>
-                <Badge variant="outline" className="font-mono text-xs">{result.verifiedBy}</Badge>
-              </div>
-              <div className="flex justify-between items-center p-3 bg-white/60 rounded-lg">
-                <span className="font-medium text-gray-700">Verification Time:</span>
-                <span className="text-gray-900 text-xs">
-                  {new Date(result.verificationTimestamp).toLocaleString()}
-                </span>
-              </div>
-            </div>
+            <p className="text-sm text-gray-700">{result.message}</p>
 
             {result.isValid && result.credential && (
-              <Card className="mt-4 bg-white border-green-200 shadow-lg">
-                <CardHeader className="pb-4 bg-green-50 rounded-t-lg">
-                  <CardTitle className="text-lg text-green-800 flex items-center">
-                    <CheckCircle className="w-5 h-5 mr-2" />
+              <Card className="bg-white border shadow-sm mt-4">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base font-semibold text-gray-900">
                     Verified Credential Details
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6 p-6">
-                  <div className="grid md:grid-cols-2 gap-6 text-sm">
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div className="space-y-3">
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium text-gray-700">Credential ID:</span>
-                        <Badge variant="outline" className="font-mono text-xs bg-white">
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Credential ID:</span>
+                        <Badge variant="outline" className="font-mono text-xs">
                           {result.credential.id}
                         </Badge>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium text-gray-700">Holder:</span>
-                        <span className="text-gray-900 font-medium">{result.credential.holderName}</span>
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Holder Name:</span>
+                        <span className="text-gray-900">{result.credential.holderName}</span>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium text-gray-700">Type:</span>
-                        <Badge variant="secondary" className="bg-emerald-100 text-emerald-800">{result.credential.credentialType}</Badge>
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Credential Type:</span>
+                        <Badge variant="secondary">{result.credential.credentialType}</Badge>
                       </div>
                     </div>
+
                     <div className="space-y-3">
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium text-gray-700">Originally Issued By:</span>
-                        <Badge variant="outline" className="font-mono text-xs bg-white">
-                          {result.credential.issuedBy.split('-').slice(-1)[0]}
-                        </Badge>
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Issuer Name:</span>
+                        <span className="text-gray-900">{result.credential.issuerName}</span>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium text-gray-700">Issuer:</span>
-                        <span className="text-gray-900 font-medium">{result.credential.issuerName}</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium text-gray-700">Issue Date:</span>
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Issue Date:</span>
                         <span className="text-gray-900 text-xs">
                           {new Date(result.credential.issueDate).toLocaleString()}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Verified At:</span>
+                        <span className="text-gray-900 text-xs">
+                          {new Date(result.verificationTimestamp).toLocaleString()}
                         </span>
                       </div>
                     </div>
                   </div>
 
                   {result.credential.expiryDate && (
-                    <div className="flex justify-between items-center p-3 bg-amber-50 rounded-lg border border-amber-200">
-                      <span className="font-medium text-gray-700">Expiry Date:</span>
-                      <span className="text-gray-900 text-xs">
-                        {new Date(result.credential.expiryDate).toLocaleString()}
-                      </span>
+                    <div className="p-3 bg-gray-50 rounded border">
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-600">Expiry Date:</span>
+                        <span className="text-gray-900 text-xs">
+                          {new Date(result.credential.expiryDate).toLocaleString()}
+                        </span>
+                      </div>
                     </div>
                   )}
 
                   {Object.keys(result.credential.data).length > 0 && (
-                    <div className="pt-4 border-t border-green-200">
-                      <h4 className="font-medium text-gray-900 mb-3 flex items-center">
-                        <Building className="w-4 h-4 mr-2" />
-                        Custom Data:
-                      </h4>
-                      <div className="bg-gray-50 p-4 rounded-lg border">
-                        <pre className="text-xs overflow-auto text-gray-800">
-                          {JSON.stringify(result.credential.data, null, 2)}
-                        </pre>
+                    <div className="pt-3 border-t">
+                      <h4 className="font-medium text-gray-900 mb-3 text-sm">Additional Data:</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {Object.entries(result.credential.data).map(([key, value]) => (
+                          <div key={key} className="flex justify-between items-center p-2 bg-gray-50 rounded border text-sm">
+                            <span className="font-medium text-gray-600">{key}:</span>
+                            <span className="text-gray-900">{String(value)}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   )}
+
+                  <div className="pt-3 border-t">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                      <div className="text-gray-600">
+                        <span className="font-medium">Issued by: </span>
+                        <Badge variant="outline" className="font-mono text-xs">
+                          {result.credential.issuedBy.split('-').slice(-1)[0]}
+                        </Badge>
+                      </div>
+                      <div className="text-gray-600">
+                        <span className="font-medium">Verified by: </span>
+                        <Badge variant="outline" className="font-mono text-xs">
+                          {result.verifiedBy.split('-').slice(-1)[0]}
+                        </Badge>
+                      </div>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             )}

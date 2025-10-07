@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FileText, Plus, Trash2, User, Building, Sparkles, CheckCircle2, AlertCircle, Calendar, Award, Clock } from 'lucide-react';
+import { FileText, Plus, Trash2, User, Building, Sparkles, AlertCircle, Calendar, Award, Clock, Copy, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -15,7 +15,7 @@ export default function IssuePage() {
   const [formData, setFormData] = useState({
     holderName: '',
     credentialType: 'certificate',
-    issueDate: new Date().toISOString().slice(0, 16),
+    issueDate: '',
     expiryDate: '',
     issuerName: '',
   });
@@ -24,6 +24,8 @@ export default function IssuePage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ success: boolean; message: string; data?: IssuedCredential } | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [copiedId, setCopiedId] = useState(false);
+  const [copiedJson, setCopiedJson] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -132,6 +134,22 @@ export default function IssuePage() {
     }
   };
 
+  const copyCredentialId = () => {
+    if (result?.data?.id) {
+      navigator.clipboard.writeText(result.data.id);
+      setCopiedId(true);
+      setTimeout(() => setCopiedId(false), 2000);
+    }
+  };
+
+  const copyCredentialJson = () => {
+    if (result?.data) {
+      navigator.clipboard.writeText(JSON.stringify(result.data, null, 2));
+      setCopiedJson(true);
+      setTimeout(() => setCopiedJson(false), 2000);
+    }
+  };
+
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
@@ -216,37 +234,44 @@ export default function IssuePage() {
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-3 gap-6">
+                  <div className="space-y-6">
                     <div className="space-y-2">
                       <Label htmlFor="credentialType" className="text-sm font-medium">
                         Credential Type *
                       </Label>
                       <Select value={formData.credentialType} onValueChange={(value) => handleInputChange('credentialType', value)}>
                         <SelectTrigger className="h-12">
-                          <SelectValue placeholder="Select credential type" />
+                          <SelectValue>
+                            {formData.credentialType === 'certificate' && 'Certificate'}
+                            {formData.credentialType === 'diploma' && 'Diploma'}
+                            {formData.credentialType === 'license' && 'License'}
+                            {formData.credentialType === 'badge' && 'Badge'}
+                            {formData.credentialType === 'other' && 'Other'}
+                          </SelectValue>
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="certificate">🎓 Certificate</SelectItem>
-                          <SelectItem value="diploma">📜 Diploma</SelectItem>
-                          <SelectItem value="license">📋 License</SelectItem>
-                          <SelectItem value="badge">🏆 Badge</SelectItem>
-                          <SelectItem value="other">📄 Other</SelectItem>
+                          <SelectItem value="certificate">Certificate</SelectItem>
+                          <SelectItem value="diploma">Diploma</SelectItem>
+                          <SelectItem value="license">License</SelectItem>
+                          <SelectItem value="badge">Badge</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="issueDate" className="text-sm font-medium">
+                      <Label htmlFor="issueDate" className="text-sm font-medium flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-cyan-600" />
                         Issue Date *
                       </Label>
-                      <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                        <Input
+                      <div className="relative group">
+                        <input
                           id="issueDate"
                           type="datetime-local"
                           value={formData.issueDate}
                           onChange={(e) => handleInputChange('issueDate', e.target.value)}
-                          className={`h-12 pl-10 transition-all duration-200 ${errors.issueDate ? 'border-red-500' : 'focus:border-cyan-500'}`}
+                          className={`w-full h-12 px-4 rounded-md border bg-white text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500 ${errors.issueDate ? 'border-red-500' : 'border-gray-300 hover:border-gray-400'}`}
+                          required
                         />
                       </div>
                       {errors.issueDate && (
@@ -258,17 +283,17 @@ export default function IssuePage() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="expiryDate" className="text-sm font-medium">
+                      <Label htmlFor="expiryDate" className="text-sm font-medium flex items-center gap-2">
+                        <Clock className="w-4 h-4 text-purple-600" />
                         Expiry Date
                       </Label>
-                      <div className="relative">
-                        <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                        <Input
+                      <div className="relative group">
+                        <input
                           id="expiryDate"
                           type="datetime-local"
                           value={formData.expiryDate}
                           onChange={(e) => handleInputChange('expiryDate', e.target.value)}
-                          className={`h-12 pl-10 transition-all duration-200 ${errors.expiryDate ? 'border-red-500' : 'focus:border-cyan-500'}`}
+                          className={`w-full h-12 px-4 rounded-md border bg-white text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 ${errors.expiryDate ? 'border-red-500' : 'border-gray-300 hover:border-gray-400'}`}
                         />
                       </div>
                       {errors.expiryDate && (
@@ -425,56 +450,106 @@ export default function IssuePage() {
 
       {/* Result Display */}
       {result && (
-        <Alert className={`${result.success ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'} shadow-lg`}>
-          {result.success ? (
-            <CheckCircle2 className="h-6 w-6 text-green-600" />
-          ) : (
-            <AlertCircle className="h-6 w-6 text-red-600" />
-          )}
-          <AlertDescription className="text-base">
-            <div className={`font-medium ${result.success ? 'text-green-800' : 'text-red-800'} mb-3`}>
+        <Alert className={`shadow-md ${result.success ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50'}`}>
+          <AlertDescription className="space-y-4">
+            <div className={`text-lg font-semibold ${result.success ? 'text-green-700' : 'text-red-700'}`}>
               {result.message}
             </div>
 
             {result.success && result.data && (
-              <Card className="mt-4 bg-white border-green-200 shadow-lg">
-                <CardHeader className="pb-4 bg-green-50 rounded-t-lg">
-                  <CardTitle className="text-lg text-green-800 flex items-center">
-                    <CheckCircle2 className="w-5 h-5 mr-2" />
-                    Credential Issued Successfully
-                  </CardTitle>
+              <Card className="mt-4 bg-white border shadow-sm">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-base font-semibold text-gray-900">
+                      Credential Issued Successfully
+                    </CardTitle>
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={copyCredentialId}
+                        className="flex items-center gap-2"
+                      >
+                        {copiedId ? (
+                          <>
+                            <Check className="w-4 h-4 text-green-600" />
+                            <span>Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-4 h-4" />
+                            <span>Copy ID</span>
+                          </>
+                        )}
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={copyCredentialJson}
+                        className="flex items-center gap-2"
+                      >
+                        {copiedJson ? (
+                          <>
+                            <Check className="w-4 h-4 text-green-600" />
+                            <span>Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <FileText className="w-4 h-4" />
+                            <span>Copy JSON</span>
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
                 </CardHeader>
-                <CardContent className="space-y-6 p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div className="space-y-3">
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium text-gray-700">Credential ID:</span>
-                        <Badge variant="outline" className="font-mono text-xs bg-white">
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Credential ID:</span>
+                        <Badge variant="outline" className="font-mono text-xs">
                           {result.data.id}
                         </Badge>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium text-gray-700">Holder:</span>
-                        <span className="text-gray-900 font-medium">{result.data.holderName}</span>
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Holder Name:</span>
+                        <span className="text-gray-900">{result.data.holderName}</span>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium text-gray-700">Type:</span>
-                        <Badge variant="secondary" className="bg-cyan-100 text-cyan-800">{result.data.credentialType}</Badge>
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Credential Type:</span>
+                        <Badge variant="secondary">{result.data.credentialType}</Badge>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Issue Date:</span>
+                        <span className="text-gray-900 text-xs">
+                          {new Date(result.data.issueDate).toLocaleString()}
+                        </span>
                       </div>
                     </div>
                     <div className="space-y-3">
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium text-gray-700">Issued By:</span>
-                        <Badge variant="outline" className="font-mono text-xs bg-white">
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Issuer Name:</span>
+                        <span className="text-gray-900">{result.data.issuerName}</span>
+                      </div>
+                      {result.data.expiryDate && (
+                        <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                          <span className="font-medium text-gray-600">Expiry Date:</span>
+                          <span className="text-gray-900 text-xs">
+                            {new Date(result.data.expiryDate).toLocaleString()}
+                          </span>
+                        </div>
+                      )}
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Issued By Worker:</span>
+                        <Badge variant="outline" className="font-mono text-xs">
                           {result.data.issuedBy.split('-').slice(-1)[0]}
                         </Badge>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium text-gray-700">Issuer:</span>
-                        <span className="text-gray-900 font-medium">{result.data.issuerName}</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium text-gray-700">Timestamp:</span>
+                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded border">
+                        <span className="font-medium text-gray-600">Timestamp:</span>
                         <span className="text-gray-900 text-xs">
                           {new Date(result.data.timestamp).toLocaleString()}
                         </span>
@@ -483,16 +558,15 @@ export default function IssuePage() {
                   </div>
 
                   {Object.keys(result.data.data).length > 0 && (
-                    <div className="pt-4 border-t border-green-200">
-                      <h4 className="font-medium text-gray-900 mb-3 flex items-center">
-                        <Building className="w-4 h-4 mr-2" />
+                    <div className="pt-3 border-t">
+                      <h4 className="font-medium text-gray-900 mb-3 text-sm">
                         Custom Data:
                       </h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         {Object.entries(result.data.data).map(([key, value]) => (
-                          <div key={key} className="flex justify-between items-center p-3 bg-cyan-50 rounded-lg border border-cyan-200">
-                            <span className="font-medium text-gray-700">{key}:</span>
-                            <span className="text-gray-900 font-medium">{String(value)}</span>
+                          <div key={key} className="flex justify-between items-center p-2 bg-gray-50 rounded border text-sm">
+                            <span className="font-medium text-gray-600">{key}:</span>
+                            <span className="text-gray-900">{String(value)}</span>
                           </div>
                         ))}
                       </div>
