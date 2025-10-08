@@ -20,7 +20,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing service or path parameter' });
     }
 
-    const ngrokBase = 'https://ccdfbd60f6ba.ngrok-free.app';
+    // Get ngrok URL from environment variable or use placeholder
+    const ngrokBase = process.env.NGROK_URL || 'https://your-ngrok-url.ngrok-free.app';
     const targetUrl = `${ngrokBase}/${service}${path}`;
 
     console.log('Proxying request to:', targetUrl);
