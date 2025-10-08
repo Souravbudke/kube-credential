@@ -2,14 +2,14 @@ import axios from 'axios';
 import { ApiResponse, Credential, IssuedCredential, VerificationResult, WorkerInfo } from '../types';
 
 const IS_PRODUCTION = import.meta.env.PROD;
-const ISSUANCE_API_URL = IS_PRODUCTION ? '/api/proxy?service=issuance&path=' : 'http://localhost:3001/api/v1';
-const VERIFICATION_API_URL = IS_PRODUCTION ? '/api/proxy?service=verification&path=' : 'http://localhost:3002/api/v1';
+const ISSUANCE_API_URL = IS_PRODUCTION ? '/api/proxy?service=issuance&path=/api/v1' : 'http://localhost:3001/api/v1';
+const VERIFICATION_API_URL = IS_PRODUCTION ? '/api/proxy?service=verification&path=/api/v1' : 'http://localhost:3002/api/v1';
 
 // Debug logging
 console.log('🔧 API Configuration:');
 console.log('  Environment:', IS_PRODUCTION ? 'Production' : 'Development');
-console.log('  Using Issuance URL:', ISSUANCE_API_URL);
-console.log('  Using Verification URL:', VERIFICATION_API_URL);
+console.log('  Issuance API:', ISSUANCE_API_URL);
+console.log('  Verification API:', VERIFICATION_API_URL);
 
 class ApiService {
   private issuanceApi = axios.create({
