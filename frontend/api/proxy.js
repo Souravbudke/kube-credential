@@ -10,8 +10,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { service, path } = req.query;
-    
+    const url = new URL(req.url, `https://${req.headers.host}`);
+    const searchParams = url.searchParams;
+
+    const service = searchParams.get('service');
+    const path = searchParams.get('path');
+
     if (!service || !path) {
       return res.status(400).json({ error: 'Missing service or path parameter' });
     }
@@ -31,7 +35,10 @@ export default async function handler(req, res) {
     });
 
     const data = await response.text();
-    
+
+    // Set the same headers as the original response
+    res.setHeader('Content-Type', response.headers.get('content-type') || 'application/json');
+
     // Try to parse as JSON, otherwise return as text
     try {
       const jsonData = JSON.parse(data);
