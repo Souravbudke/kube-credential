@@ -18,10 +18,15 @@ spec:
         app: issuance-service
         tier: backend
     spec:
+      securityContext:
+        fsGroup: 1001
       containers:
       - name: issuance-service
-        image: kube-credential/issuance-service:latest
-        imagePullPolicy: IfNotPresent
+        image: kubecredentialacr.azurecr.io/issuance-service:v1
+        imagePullPolicy: Always
+        securityContext:
+          runAsUser: 1001
+          runAsGroup: 1001
         ports:
         - containerPort: 3000
           name: http

@@ -18,10 +18,15 @@ spec:
         app: verification-service
         tier: backend
     spec:
+      securityContext:
+        fsGroup: 1001
       containers:
       - name: verification-service
-        image: kube-credential/verification-service:latest
-        imagePullPolicy: IfNotPresent
+        image: kubecredentialacr.azurecr.io/verification-service:v1
+        imagePullPolicy: Always
+        securityContext:
+          runAsUser: 1001
+          runAsGroup: 1001
         ports:
         - containerPort: 3000
           name: http
