@@ -4,6 +4,10 @@ import { ApiResponse, Credential, IssuedCredential, VerificationResult, WorkerIn
 const ISSUANCE_API_URL = import.meta.env.VITE_ISSUANCE_API_URL || 'http://localhost:3001/api/v1';
 const VERIFICATION_API_URL = import.meta.env.VITE_VERIFICATION_API_URL || 'http://localhost:3002/api/v1';
 
+console.log('🚀 API Configuration:');
+console.log('Issuance API URL:', ISSUANCE_API_URL);
+console.log('Verification API URL:', VERIFICATION_API_URL);
+
 class ApiService {
   private issuanceApi = axios.create({
     baseURL: ISSUANCE_API_URL,
@@ -72,10 +76,20 @@ class ApiService {
 
   async checkIssuanceHealth(): Promise<ApiResponse> {
     try {
+      console.log('🔍 Checking issuance service health at:', this.issuanceApi.defaults.baseURL + '/health');
       const response = await this.issuanceApi.get('/health');
+      console.log('✅ Issuance health check successful:', response.data);
       return response.data;
     } catch (error) {
+      console.error('❌ Issuance health check failed:', error);
       if (axios.isAxiosError(error)) {
+        console.error('❌ Axios error details:', {
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          data: error.response?.data,
+          url: error.config?.url,
+          baseURL: error.config?.baseURL
+        });
         throw new Error(error.response?.data?.error || error.message);
       }
       throw error;
@@ -122,10 +136,20 @@ class ApiService {
 
   async checkVerificationHealth(): Promise<ApiResponse> {
     try {
+      console.log('🔍 Checking verification service health at:', this.verificationApi.defaults.baseURL + '/health');
       const response = await this.verificationApi.get('/health');
+      console.log('✅ Verification health check successful:', response.data);
       return response.data;
     } catch (error) {
+      console.error('❌ Verification health check failed:', error);
       if (axios.isAxiosError(error)) {
+        console.error('❌ Axios error details:', {
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          data: error.response?.data,
+          url: error.config?.url,
+          baseURL: error.config?.baseURL
+        });
         throw new Error(error.response?.data?.error || error.message);
       }
       throw error;
