@@ -17,7 +17,7 @@ class ApiService {
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
-      'ngrok-skip-browser-warning': 'true',
+      'User-Agent': 'KubeCredential/1.0',
     },
   });
 
@@ -26,7 +26,7 @@ class ApiService {
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
-      'ngrok-skip-browser-warning': 'true',
+      'User-Agent': 'KubeCredential/1.0',
     },
   });
 
