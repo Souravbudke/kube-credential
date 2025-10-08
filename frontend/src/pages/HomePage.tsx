@@ -50,32 +50,32 @@ export default function HomePage() {
 
             {/* Company Logos */}
             <div className="mt-8 sm:mt-12 md:mt-16 mb-6 sm:mb-8">
-              <div className="group relative m-auto max-w-6xl">
-                <div className="flex flex-col items-center md:flex-row">
-                  <div className="md:max-w-44 md:border-r md:border-gray-600 md:pr-6 mb-3 sm:mb-4 md:mb-0">
-                    <p className="text-end text-xs sm:text-sm text-gray-400">Powering the best</p>
+              <div className="group relative m-auto max-w-6xl text-center">
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="flex-shrink-0">
+                    <p className="text-sm sm:text-base text-gray-400 font-medium">Powering the best</p>
                   </div>
-                  <div className="relative py-4 sm:py-6 md:w-[calc(100%-11rem)]">
-                    <div className="flex items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-12 xl:gap-16 flex-wrap">
-                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                  <div className="py-2 sm:py-4">
+                    <div className="flex items-center justify-center gap-6 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-16 flex-wrap">
+                      <div className="text-gray-400 text-sm sm:text-base font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         Node.js
                       </div>
-                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                      <div className="text-gray-400 text-sm sm:text-base font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         TypeScript
                       </div>
-                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                      <div className="text-gray-400 text-sm sm:text-base font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         Docker
                       </div>
-                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                      <div className="text-gray-400 text-sm sm:text-base font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         Kubernetes
                       </div>
-                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                      <div className="text-gray-400 text-sm sm:text-base font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         React
                       </div>
-                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                      <div className="text-gray-400 text-sm sm:text-base font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         SQLite
                       </div>
-                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                      <div className="text-gray-400 text-sm sm:text-base font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         Azure
                       </div>
                     </div>
