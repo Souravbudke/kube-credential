@@ -38,7 +38,7 @@ cd k8s
 
 ```mermaid
 graph TB
-    subgraph "Frontend - Vercel"
+    subgraph "Frontend"
         A[React + TypeScript<br/>shadcn/ui]
         A1[Global CDN<br/>HTTPS/SSL]
     end
