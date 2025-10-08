@@ -77,8 +77,8 @@ export default function HealthPage() {
         <div className="flex items-center">
           {loading ? (
             <div className="flex items-center">
-              <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 mr-2 text-gray-500 animate-spin" />
-              <span className="text-xs text-gray-500">Checking...</span>
+              <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 mr-2 text-[#a3a3a3] animate-spin" />
+              <span className="text-xs text-[#a3a3a3]">Checking...</span>
             </div>
           ) : health ? (
             <>
@@ -89,7 +89,7 @@ export default function HealthPage() {
             </>
           ) : (
             <>
-              <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
+              <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-400" />
               <span className="ml-2 px-2 py-1 text-xs font-medium rounded bg-red-100 text-red-800">
                 Unhealthy
               </span>
@@ -107,27 +107,27 @@ export default function HealthPage() {
         <div className="space-y-2 sm:space-y-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
             <div>
-              <span className="font-medium text-gray-700">Status:</span> {health.status}
+              <span className="font-medium text-[#a3a3a3]">Status:</span> <span className="text-white">{health.status}</span>
             </div>
             <div>
-              <span className="font-medium text-gray-700">Service:</span> {health.service}
+              <span className="font-medium text-[#a3a3a3]">Service:</span> <span className="text-white">{health.service}</span>
             </div>
             <div>
-              <span className="font-medium text-gray-700">Worker ID:</span> {health.worker.workerId}
+              <span className="font-medium text-[#a3a3a3]">Worker ID:</span> <span className="text-white">{health.worker.workerId}</span>
             </div>
             <div>
-              <span className="font-medium text-gray-700">Hostname:</span> {health.worker.hostname}
+              <span className="font-medium text-[#a3a3a3]">Hostname:</span> <span className="text-white">{health.worker.hostname}</span>
             </div>
           </div>
           <div className="text-xs sm:text-sm">
-            <span className="font-medium text-gray-700">Last Check:</span> {new Date(health.timestamp).toLocaleString()}
+            <span className="font-medium text-[#a3a3a3]">Last Check:</span> <span className="text-white">{new Date(health.timestamp).toLocaleString()}</span>
           </div>
           <div className="text-xs sm:text-sm">
-            <span className="font-medium text-gray-700">Worker Started:</span> {new Date(health.worker.timestamp).toLocaleString()}
+            <span className="font-medium text-[#a3a3a3]">Worker Started:</span> <span className="text-white">{new Date(health.worker.timestamp).toLocaleString()}</span>
           </div>
         </div>
       ) : (
-        <div className="text-red-600 text-sm">
+        <div className="text-red-400 text-sm">
           <p className="font-medium">Connection Failed</p>
           <p className="text-xs sm:text-sm">{error}</p>
         </div>
