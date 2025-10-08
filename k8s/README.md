@@ -4,7 +4,7 @@ This directory contains Kubernetes manifests and deployment scripts for the Kube
 
 ## Current Architecture
 
-- **Frontend**: Deployed on Vercel (https://kubecredential.vercel.app/)
+- **Frontend**: Deployed on Vercel (https://kubecredential.souravbudke.tech/)
 - **Backend**: Deployed on Azure AKS (Southeast Asia region)
 - **HTTPS Tunnel**: ngrok (for demo/development)
 
@@ -23,7 +23,7 @@ chmod +x deploy-azure.sh
 ```
 
 ### Access the Application
-- **Frontend**: https://kubecredential.vercel.app/
+- **Frontend**: https://kubecredential.souravbudke.tech/
 - **Backend API**: Available via ngrok tunnel (see deployment output)
 - **Direct API**: `https://your-ngrok-url.ngrok-free.app/`
 
@@ -72,7 +72,7 @@ Internet → Vercel (Frontend) → ngrok (HTTPS) → Azure AKS Ingress → Backe
 ## Access URLs
 
 ### Production (Azure AKS + Vercel)
-- **Frontend**: https://kubecredential.vercel.app/
+- **Frontend**: https://kubecredential.souravbudke.tech/
 - **Backend API**: Available via ngrok tunnel (see deployment output)
 - **Direct API**: `https://your-ngrok-url.ngrok-free.app/`
 

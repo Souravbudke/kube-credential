@@ -10,21 +10,22 @@
 
 ## 👤 Candidate Information
 
-**Name:** Sourav Budke  
-**Email:** [souravbudke@gmail.com](mailto:souravbudke@gmail.com)  
+**Name:** Sourav Budke
+**Email:** [souravrbudke@gmail.com](mailto:souravrbudke@gmail.com)
+**Phone:** +91 9036965015
 **GitHub:** https://github.com/Souravbudke/kube-credential
 
 ## 🌐 Live Demo
 
-- **Frontend (Vercel):** https://kubecredential.vercel.app/
+- **Frontend (Vercel):** https://kubecredential.souravbudke.tech/
 - **Backend (Azure AKS):** Running on Azure Kubernetes Service (Southeast Asia)
-- **Health Check:** https://kubecredential.vercel.app/health
+- **Health Check:** https://kubecredential.souravbudke.tech/health
 
 ## 🌟 Quick Start
 
 ```bash
 # Access the live application
-open https://kubecredential.vercel.app/
+open https://kubecredential.souravbudke.tech/
 
 # Or deploy to your own Azure account
 cd k8s
@@ -172,7 +173,7 @@ npm run test:coverage
 ### **Manual Testing Workflows**
 
 #### 1. **Web Interface Testing**
-- Visit https://kubecredential.vercel.app/
+- Visit https://kubecredential.souravbudke.tech/
 - Navigate to **Issue Credential** page
 - Fill in credential details and submit
 - Note the worker ID in the response: `"credential issued by worker-{id}"`
@@ -405,7 +406,7 @@ cd frontend && npm run dev
 
 ---
 
-**🌐 Live Demo:** https://kubecredential.vercel.app/
+**🌐 Live Demo:** https://kubecredential.souravbudke.tech/
 
 ---
 
