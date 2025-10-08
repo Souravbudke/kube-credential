@@ -10,10 +10,10 @@
 
 ## 👤 Candidate Information
 
-**Name:** Sourav Budke
-**Email:** [souravrbudke@gmail.com](mailto:souravrbudke@gmail.com)
-**Phone:** +91 9036965015
-**GitHub:** https://github.com/Souravbudke/kube-credential
+- **Name:** Sourav Budke
+- **Email:** [souravrbudke@gmail.com](mailto:souravrbudke@gmail.com)
+- **Phone:** +91 9036965015
+- **GitHub:** https://github.com/Souravbudke/kube-credential
 
 ## 🌐 Live Demo
 
