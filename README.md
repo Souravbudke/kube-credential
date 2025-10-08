@@ -34,19 +34,6 @@ cd k8s
 
 ---
 
-## 📊 Assessment Score: **96.7% EXCELLENT**
-
-| Evaluation Criteria | Score | Status |
-|---------------------|-------|--------|
-| **🎯 Functionality** | 100% | ✅ All features complete |
-| **🧹 Code Quality** | 95% | ✅ TypeScript, clean architecture |
-| **☁️ Cloud Deployment** | 100% | ✅ Kubernetes production-ready |
-| **🧪 Testing Coverage** | 90% | ✅ Comprehensive test suite |
-| **🎨 UI/UX Design** | 95% | ✅ Modern shadcn/ui interface |
-| **📚 Documentation** | 100% | ✅ Complete architecture docs |
-
----
-
 ## 🏗️ System Architecture
 
 ```mermaid
@@ -198,7 +185,7 @@ npm run test:coverage
 #### 2. **API Testing (via ngrok)**
 ```bash
 # Test credential issuance
-curl -X POST https://ccdfbd60f6ba.ngrok-free.app/issuance/api/v1/credentials \
+curl -X POST https://your-ngrok-url.ngrok-free.app/issuance/api/v1/credentials \
   -H "Content-Type: application/json" \
   -H "ngrok-skip-browser-warning: true" \
   -d '{
@@ -210,7 +197,7 @@ curl -X POST https://ccdfbd60f6ba.ngrok-free.app/issuance/api/v1/credentials \
   }'
 
 # Test credential verification
-curl -X POST https://ccdfbd60f6ba.ngrok-free.app/verification/api/v1/verify \
+curl -X POST https://your-ngrok-url.ngrok-free.app/verification/api/v1/verify \
   -H "Content-Type: application/json" \
   -H "ngrok-skip-browser-warning: true" \
   -d '{
