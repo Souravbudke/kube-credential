@@ -49,82 +49,45 @@ cd k8s
 
 ## 🏗️ System Architecture
 
-### **Production Deployment Architecture**
+```mermaid
+graph TB
+    subgraph "Frontend - Vercel"
+        A[React + TypeScript<br/>shadcn/ui]
+        A1[Global CDN<br/>HTTPS/SSL]
+    end
 
+    subgraph "Backend Services - Azure AKS"
+        B[Issuance Service<br/>Node.js + SQLite]
+        C[Verification Service<br/>Node.js + SQLite]
+    end
+
+    subgraph "Infrastructure"
+        D[Kubernetes Cluster<br/>2vCPU, 4GB RAM]
+        E[NGINX Ingress<br/>Load Balancer]
+        F[Persistent Storage<br/>Azure Disk 2x1GB]
+        G[Container Registry<br/>ACR]
+    end
+
+    subgraph "External Services"
+        H[Vercel Proxy<br/>Serverless Function]
+        I[ngrok Tunnel<br/>HTTPS Bridge]
+    end
+
+    A -->|HTTPS| H
+    H -->|HTTPS| I
+    I -->|HTTP| E
+    E --> B
+    E --> C
+    B --> F
+    C --> F
+    B --> G
+    C --> G
+
+    style A fill:#e1f5fe,color:#000
+    style B fill:#fff3e0,color:#000
+    style C fill:#fff3e0,color:#000
+    style H fill:#f3e5f5,color:#000
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                         User Browser                             │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ HTTPS
-                           ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Vercel (Global CDN)                           │
-│  ┌────────────────────────────────────────────────────────┐     │
-│  │  Frontend (React + TypeScript + shadcn/ui)             │     │
-│  │  - Issue Credential Page                               │     │
-│  │  - Verify Credential Page                              │     │
-│  │  - Health Dashboard                                    │     │
-│  └────────────────────────────────────────────────────────┘     │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ HTTPS
-                           ▼
-┌─────────────────────────────────────────────────────────────────┐
-│              Vercel Serverless Proxy Function                    │
-│  (Adds ngrok-skip-browser-warning header)                       │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ HTTPS
-                           ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    ngrok Tunnel (Free Tier)                      │
-│  URL: https://ccdfbd60f6ba.ngrok-free.app                       │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ HTTP
-                           ▼
-┌─────────────────────────────────────────────────────────────────┐
-│              Azure Kubernetes Service (AKS)                      │
-│              Region: Southeast Asia (Singapore)                  │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────┐    │
-│  │            NGINX Ingress Controller                     │    │
-│  │  External IP: 40.90.188.59                             │    │
-│  └─────────────┬──────────────────────┬───────────────────┘    │
-│                │                      │                         │
-│                ▼                      ▼                         │
-│  ┌──────────────────────┐  ┌──────────────────────┐           │
-│  │ Issuance Service     │  │ Verification Service │           │
-│  │ - 2 Replicas         │  │ - 2 Replicas         │           │
-│  │ - Node.js + TS       │  │ - Node.js + TS       │           │
-│  │ - Port 3000          │  │ - Port 3000          │           │
-│  └─────────┬────────────┘  └─────────┬────────────┘           │
-│            │                          │                         │
-│            ▼                          ▼                         │
-│  ┌──────────────────────┐  ┌──────────────────────┐           │
-│  │ SQLite Database      │  │ SQLite Database      │           │
-│  │ (1GB PVC)            │  │ (1GB PVC)            │           │
-│  └──────────────────────┘  └──────────────────────┘           │
-│                                                                  │
-│  Container Registry: kubecredentialacr.azurecr.io               │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### **Key Architecture Decisions**
-
-1. **Hybrid Cloud Deployment**
-   - Frontend on Vercel for global CDN and automatic HTTPS
-   - Backend on Azure AKS for Kubernetes orchestration
-   - ngrok tunnel for HTTPS connectivity (development/demo)
-
-2. **Microservices Pattern**
-   - Independent scaling of Issuance and Verification services
-   - Each service has its own database (SQLite with persistent volumes)
-   - RESTful APIs with JSON communication
-
-3. **High Availability**
-   - 2 replicas per service for redundancy
-   - Kubernetes auto-healing and rolling updates
-   - Health checks and readiness probes
-
----
 
 ## 🚀 Features Demonstrated
 
@@ -407,7 +370,7 @@ vercel --prod
 ```
 
 ### **Verification Service**
-**Base URL:** `https://ccdfbd60f6ba.ngrok-free.app/verification/api/v1`
+**Base URL:** `https://your-ngrok-url.ngrok-free.app/verification/api/v1`
 
 | Method | Endpoint | Description | Response |
 |--------|----------|-------------|----------|
@@ -456,62 +419,8 @@ cd frontend && npm run dev
 
 ---
 
-## 🏆 Assessment Highlights
-
-### **Technical Excellence**
-- ✅ **Clean Code**: TypeScript strict mode, modular architecture
-- ✅ **Modern Stack**: Latest frameworks and best practices
-- ✅ **Production Ready**: Kubernetes deployment with high availability
-- ✅ **Comprehensive Testing**: Unit, integration, and E2E tests
-
-### **Business Value**
-- ✅ **Scalable Design**: Microservice architecture for growth
-- ✅ **User Experience**: Intuitive shadcn/ui interface
-- ✅ **Reliability**: Error handling and graceful degradation
-- ✅ **Maintainability**: Clear documentation and code structure
-
-### **Cloud Native**
-- ✅ **Containerized**: Docker multi-stage builds
-- ✅ **Orchestrated**: Kubernetes with service mesh
-- ✅ **Observable**: Health checks and structured logging
-- ✅ **Secure**: Industry-standard security practices
+**🌐 Live Demo:** https://kubecredential.vercel.app/
 
 ---
 
-## 🎉 Conclusion
-
-The **Kube Credential** application demonstrates complete mastery of full-stack cloud-native engineering:
-
-- 🏗️ **Microservice Architecture**: Two independent, scalable services on Azure AKS
-- 🎨 **Modern UI/UX**: React + TypeScript + shadcn/ui deployed on Vercel
-- ☁️ **Cloud Native**: Production deployment on Azure Kubernetes Service
-- 🧪 **Quality Assurance**: Unit tests with Jest, comprehensive validation
-- 📚 **Professional Documentation**: Complete architecture and deployment guides
-- 🔒 **Security**: HTTPS, input validation, container security
-- 📦 **DevOps**: Docker, Kubernetes, CI/CD ready
-
-### **PRD Compliance: 100%**
-
-✅ Node.js + TypeScript backend  
-✅ Docker containerization  
-✅ Cloud hosting (Azure free tier)  
-✅ Two microservices (independently scalable)  
-✅ React + TypeScript frontend  
-✅ Two pages (Issue + Verify)  
-✅ JSON-based APIs  
-✅ **Worker ID in response: `"credential issued by worker-{id}"`**  
-✅ SQLite persistence  
-✅ Unit tests included  
-✅ Kubernetes manifests  
-✅ Complete documentation  
-
----
-
-**🌐 Live Demo:** https://kubecredential.vercel.app/  
-**📧 Contact:** [Your Email] | **📱 Phone:** [Your Phone]  
-**💻 GitHub:** https://github.com/Souravbudke/kube-credential
-
----
-
-*Built with ❤️ using Azure, Kubernetes, React, and TypeScript*  
-**Author:** Sourav Budke
+*Built with ❤️ using Azure, Kubernetes, React, and TypeScript*
