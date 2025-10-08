@@ -410,9 +410,9 @@ graph TB
     A[End-to-End Tests<br/>Web interface, API integration] --> B[Integration Tests<br/>Service communication, Database]
     B --> C[Unit Tests<br/>Functions, Components, Services]
     
-    style A fill:#ffcdd2
-    style B fill:#fff3e0
-    style C fill:#e8f5e8
+    style A fill:#ffcdd2,color:#000
+    style B fill:#fff3e0,color:#000
+    style C fill:#e8f5e8,color:#000
 ```
 
 ### Test Categories
