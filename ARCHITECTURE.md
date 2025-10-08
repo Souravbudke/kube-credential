@@ -33,7 +33,7 @@ graph TB
     end
 
     subgraph "Load Balancer"
-        C[nginx Ingress Controller<br/>40.90.188.59]
+        C[nginx Ingress Controller<br/>External IP: your-lb-ip]
     end
 
     subgraph "Backend Services - Azure AKS"
@@ -89,13 +89,13 @@ graph TB
     J --> N
     K --> N
 
-    style A fill:#e1f5fe
-    style F fill:#fff3e0
-    style H fill:#fff3e0
-    style J fill:#f3e5f5
-    style K fill:#f3e5f5
-    style O fill:#e3f2fd
-    style P fill:#fff3e0
+    style A fill:#e1f5fe,color:#000
+    style F fill:#fff3e0,color:#000
+    style H fill:#fff3e0,color:#000
+    style J fill:#f3e5f5,color:#000
+    style K fill:#f3e5f5,color:#000
+    style O fill:#e3f2fd,color:#000
+    style P fill:#fff3e0,color:#000
 ```
 
 ---

@@ -77,7 +77,7 @@ Internet → Vercel (Frontend) → ngrok (HTTPS) → Azure AKS Ingress → Backe
 - **Direct API**: `https://your-ngrok-url.ngrok-free.app/`
 
 ### Azure AKS Resources
-- **Load Balancer**: 40.90.188.59 (NGINX Ingress)
+- **Load Balancer**: External IP (provided after deployment)
 - **Container Registry**: kubecredentialacr.azurecr.io
 - **Region**: Southeast Asia (Singapore)
 

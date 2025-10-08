@@ -11,8 +11,7 @@
 ## 👤 Candidate Information
 
 **Name:** Sourav Budke  
-**Email:** [Your Email]  
-**Phone:** [Your Phone Number]  
+**Email:** [souravbudke@gmail.com](mailto:souravbudke@gmail.com)  
 **GitHub:** https://github.com/Souravbudke/kube-credential
 
 ## 🌐 Live Demo
@@ -50,7 +49,7 @@ graph TB
 
     subgraph "Infrastructure"
         D[Kubernetes Cluster<br/>2vCPU, 4GB RAM]
-        E[NGINX Ingress<br/>Load Balancer]
+        E[NGINX Ingress<br/>Load Balancer<br/>External IP: your-lb-ip]
         F[Persistent Storage<br/>Azure Disk 2x1GB]
         G[Container Registry<br/>ACR]
     end
@@ -327,7 +326,7 @@ vercel --prod
 ## 🎯 API Reference
 
 ### **Issuance Service** 
-**Base URL:** `https://ccdfbd60f6ba.ngrok-free.app/issuance/api/v1`
+**Base URL:** `https://your-ngrok-url.ngrok-free.app/issuance/api/v1`
 
 | Method | Endpoint | Description | Response |
 |--------|----------|-------------|----------|
