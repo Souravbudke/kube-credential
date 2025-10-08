@@ -1,15 +1,8 @@
 import axios from 'axios';
 import { ApiResponse, Credential, IssuedCredential, VerificationResult, WorkerInfo } from '../types';
 
-const IS_PRODUCTION = import.meta.env.PROD;
-const ISSUANCE_API_URL = IS_PRODUCTION ? '/api/proxy?service=issuance&path=/api/v1' : 'http://localhost:3001/api/v1';
-const VERIFICATION_API_URL = IS_PRODUCTION ? '/api/proxy?service=verification&path=/api/v1' : 'http://localhost:3002/api/v1';
-
-// Debug logging
-console.log('🔧 API Configuration:');
-console.log('  Environment:', IS_PRODUCTION ? 'Production' : 'Development');
-console.log('  Issuance API:', ISSUANCE_API_URL);
-console.log('  Verification API:', VERIFICATION_API_URL);
+const ISSUANCE_API_URL = import.meta.env.VITE_ISSUANCE_API_URL || 'http://localhost:3001/api/v1';
+const VERIFICATION_API_URL = import.meta.env.VITE_VERIFICATION_API_URL || 'http://localhost:3002/api/v1';
 
 class ApiService {
   private issuanceApi = axios.create({
@@ -79,12 +72,9 @@ class ApiService {
 
   async checkIssuanceHealth(): Promise<ApiResponse> {
     try {
-      console.log('🏥 Checking Issuance Health:', `${ISSUANCE_API_URL}/api/v1/health`);
       const response = await this.issuanceApi.get('/health');
-      console.log('✅ Issuance Health Response:', response.data);
       return response.data;
     } catch (error) {
-      console.error('❌ Issuance Health Error:', error);
       if (axios.isAxiosError(error)) {
         throw new Error(error.response?.data?.error || error.message);
       }
@@ -132,12 +122,9 @@ class ApiService {
 
   async checkVerificationHealth(): Promise<ApiResponse> {
     try {
-      console.log('🏥 Checking Verification Health:', `${VERIFICATION_API_URL}/api/v1/health`);
       const response = await this.verificationApi.get('/health');
-      console.log('✅ Verification Health Response:', response.data);
       return response.data;
     } catch (error) {
-      console.error('❌ Verification Health Error:', error);
       if (axios.isAxiosError(error)) {
         throw new Error(error.response?.data?.error || error.message);
       }
