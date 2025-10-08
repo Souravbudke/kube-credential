@@ -1,26 +1,35 @@
 # 🎯 Kube Credential - Full Stack Engineer Assessment
 
-> **A production-ready microservice-based credential management system demonstrating enterprise-level software engineering practices.**
+> **A production-ready microservice-based credential management system deployed on Azure Kubernetes Service with modern cloud-native architecture.**
 
 [![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+[![Azure](https://img.shields.io/badge/azure-%230072C6.svg?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/)
 [![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://reactjs.org/)
-[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+
+## 👤 Candidate Information
+
+**Name:** Sourav Budke  
+**Email:** [Your Email]  
+**Phone:** [Your Phone Number]  
+**GitHub:** https://github.com/Souravbudke/kube-credential
+
+## 🌐 Live Demo
+
+- **Frontend (Vercel):** https://kubecredential.vercel.app/
+- **Backend (Azure AKS):** Running on Azure Kubernetes Service (Southeast Asia)
+- **Health Check:** https://kubecredential.vercel.app/health
 
 ## 🌟 Quick Start
 
 ```bash
-# 1. Ensure Docker Desktop with Kubernetes is running
-kubectl cluster-info
+# Access the live application
+open https://kubecredential.vercel.app/
 
-# 2. Access the application
-open http://kube-credential.local
-
-# 3. Run comprehensive evaluation
-./complete-evaluation.sh
-
-# 4. View all data and test
-./view-data.sh
+# Or deploy to your own Azure account
+cd k8s
+./deploy-azure.sh
 ```
 
 ---
@@ -40,35 +49,80 @@ open http://kube-credential.local
 
 ## 🏗️ System Architecture
 
-```mermaid
-graph TB
-    subgraph "Frontend"
-        A[React + shadcn/ui<br/>Modern TypeScript UI]
-    end
-    
-    subgraph "Backend Services"
-        B[Issuance Service<br/>Node.js + TypeScript]
-        C[Verification Service<br/>Node.js + TypeScript]
-    end
-    
-    subgraph "Infrastructure"
-        D[Kubernetes Cluster<br/>Docker Desktop]
-        E[nginx Ingress<br/>Load Balancer]
-        F[Persistent Storage<br/>SQLite Databases]
-    end
-    
-    A --> E
-    E --> B
-    E --> C
-    B --> F
-    C --> F
-    C -.->|Cross-service| B
-    
-    style A fill:#e1f5fe
-    style B fill:#fff3e0
-    style C fill:#fff3e0
-    style F fill:#f3e5f5
+### **Production Deployment Architecture**
+
 ```
+┌─────────────────────────────────────────────────────────────────┐
+│                         User Browser                             │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │ HTTPS
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Vercel (Global CDN)                           │
+│  ┌────────────────────────────────────────────────────────┐     │
+│  │  Frontend (React + TypeScript + shadcn/ui)             │     │
+│  │  - Issue Credential Page                               │     │
+│  │  - Verify Credential Page                              │     │
+│  │  - Health Dashboard                                    │     │
+│  └────────────────────────────────────────────────────────┘     │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │ HTTPS
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│              Vercel Serverless Proxy Function                    │
+│  (Adds ngrok-skip-browser-warning header)                       │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │ HTTPS
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    ngrok Tunnel (Free Tier)                      │
+│  URL: https://ccdfbd60f6ba.ngrok-free.app                       │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │ HTTP
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│              Azure Kubernetes Service (AKS)                      │
+│              Region: Southeast Asia (Singapore)                  │
+│                                                                  │
+│  ┌────────────────────────────────────────────────────────┐    │
+│  │            NGINX Ingress Controller                     │    │
+│  │  External IP: 40.90.188.59                             │    │
+│  └─────────────┬──────────────────────┬───────────────────┘    │
+│                │                      │                         │
+│                ▼                      ▼                         │
+│  ┌──────────────────────┐  ┌──────────────────────┐           │
+│  │ Issuance Service     │  │ Verification Service │           │
+│  │ - 2 Replicas         │  │ - 2 Replicas         │           │
+│  │ - Node.js + TS       │  │ - Node.js + TS       │           │
+│  │ - Port 3000          │  │ - Port 3000          │           │
+│  └─────────┬────────────┘  └─────────┬────────────┘           │
+│            │                          │                         │
+│            ▼                          ▼                         │
+│  ┌──────────────────────┐  ┌──────────────────────┐           │
+│  │ SQLite Database      │  │ SQLite Database      │           │
+│  │ (1GB PVC)            │  │ (1GB PVC)            │           │
+│  └──────────────────────┘  └──────────────────────┘           │
+│                                                                  │
+│  Container Registry: kubecredentialacr.azurecr.io               │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### **Key Architecture Decisions**
+
+1. **Hybrid Cloud Deployment**
+   - Frontend on Vercel for global CDN and automatic HTTPS
+   - Backend on Azure AKS for Kubernetes orchestration
+   - ngrok tunnel for HTTPS connectivity (development/demo)
+
+2. **Microservices Pattern**
+   - Independent scaling of Issuance and Verification services
+   - Each service has its own database (SQLite with persistent volumes)
+   - RESTful APIs with JSON communication
+
+3. **High Availability**
+   - 2 replicas per service for redundancy
+   - Kubernetes auto-healing and rolling updates
+   - Health checks and readiness probes
 
 ---
 
@@ -81,9 +135,10 @@ graph TB
 - **Cross-Service Communication**: REST API calls between services
 
 ### ✅ **Modern Technology Stack**
-- **Frontend**: React 18 + TypeScript + shadcn/ui + Tailwind CSS
-- **Backend**: Node.js + TypeScript + Express.js + SQLite
-- **Infrastructure**: Docker + Kubernetes + nginx Ingress
+- **Frontend**: React 18 + TypeScript + Vite + shadcn/ui + Tailwind CSS
+- **Backend**: Node.js 18 + TypeScript + Express.js + SQLite
+- **Cloud**: Azure Kubernetes Service (AKS) + Vercel + ngrok
+- **Infrastructure**: Docker + Kubernetes 1.32 + NGINX Ingress + Azure Container Registry
 - **Development**: Vite + Jest + ESLint + Prettier
 
 ### ✅ **Production-Ready Deployment**
@@ -105,94 +160,118 @@ graph TB
 
 ```
 kube-credential/
-├── 📱 frontend/                 # React TypeScript UI
+├── 📱 frontend/                 # React TypeScript UI (Deployed on Vercel)
 │   ├── src/
 │   │   ├── components/ui/       # shadcn/ui components
-│   │   ├── pages/              # Application pages
+│   │   ├── pages/              # Issue, Verify, Health pages
+│   │   ├── services/           # API client
 │   │   └── lib/                # Utilities
-│   └── Dockerfile              # Frontend container
+│   ├── api/
+│   │   └── proxy.js            # Vercel serverless proxy
+│   └── vercel.json             # Vercel configuration
 │
-├── 🔧 services/
+├── 🔧 services/                # Backend microservices (Azure AKS)
 │   ├── issuance-service/       # Credential issuance API
 │   │   ├── src/
 │   │   │   ├── controllers/    # Request handlers
 │   │   │   ├── services/       # Business logic
-│   │   │   ├── models/         # Data models
+│   │   │   ├── database/       # SQLite persistence
 │   │   │   └── __tests__/      # Unit tests
-│   │   └── Dockerfile          # Service container
+│   │   └── Dockerfile          # Multi-stage build
 │   │
 │   └── verification-service/   # Credential verification API
 │       ├── src/
 │       │   ├── controllers/    # Request handlers
 │       │   ├── services/       # Business logic
+│       │   ├── database/       # SQLite persistence
 │       │   └── __tests__/      # Unit tests
-│       └── Dockerfile          # Service container
+│       └── Dockerfile          # Multi-stage build
 │
-├── ☸️ k8s/                     # Kubernetes manifests
-│   ├── namespace.yaml          # Resource isolation
-│   ├── deployments/            # Application deployments
-│   ├── services/               # Service definitions
-│   ├── ingress.yaml            # External access
-│   └── persistent-volumes.yaml # Storage configuration
+├── ☸️ k8s/                     # Kubernetes manifests (Azure AKS)
+│   ├── namespace.yaml          # kube-credential namespace
+│   ├── configmap.yaml          # Environment configuration
+│   ├── persistent-volumes.yaml # SQLite storage (Azure Disk)
+│   ├── issuance-service.yaml   # Deployment + Service
+│   ├── verification-service.yaml # Deployment + Service
+│   ├── ingress.yaml            # NGINX ingress routing
+│   ├── deploy-azure.sh         # Azure deployment script
+│   └── cleanup-azure.sh        # Cleanup script
 │
-├── 📊 Testing & Documentation
-│   ├── complete-evaluation.sh  # Full assessment demo
-│   ├── test-api.sh             # API testing script
-│   ├── view-data.sh            # Data inspection tool
-│   ├── EVALUATION_REPORT.md    # Detailed assessment
-│   ├── ARCHITECTURE.md         # System architecture
-│   └── README.md               # This file
+├── 📚 Documentation
+│   ├── README.md               # This file
+│   ├── ARCHITECTURE.md         # Detailed architecture
+│   └── docker-compose.yml      # Local development
 │
-└── 🚀 Deployment
-    ├── deploy-local.sh          # Local Kubernetes deployment
-    ├── deploy-aws.sh            # AWS EKS deployment
-    └── docker-compose.yml       # Development environment
+└── 🔧 Configuration
+    └── .gitignore              # Git ignore rules
 ```
 
 ---
 
 ## 🧪 Testing & Validation
 
-### **Automated Testing Suite**
+### **Unit Tests**
 ```bash
-# Run complete evaluation demonstration
-./complete-evaluation.sh
+# Run backend tests
+cd services/issuance-service && npm test
+cd services/verification-service && npm test
 
-# Individual testing options
-./test-api.sh          # API endpoint testing
-./view-data.sh         # Data inspection
-./database-access.sh   # Direct database access
+# Test coverage
+npm run test:coverage
 ```
 
 ### **Manual Testing Workflows**
 
 #### 1. **Web Interface Testing**
-- Visit http://kube-credential.local
-- Navigate between Issue and Verify pages
-- Test credential creation and verification
-- Verify responsive design on different devices
+- Visit https://kubecredential.vercel.app/
+- Navigate to **Issue Credential** page
+- Fill in credential details and submit
+- Note the worker ID in the response: `"credential issued by worker-{id}"`
+- Navigate to **Verify Credential** page
+- Enter the same credential details
+- Verify the credential is found with worker info
+- Check **Service Health** page for system status
 
-#### 2. **API Testing**
+#### 2. **API Testing (via ngrok)**
 ```bash
-# Port forward services
-kubectl port-forward -n kube-credential svc/issuance-service 8001:3000 &
-kubectl port-forward -n kube-credential svc/verification-service 8002:3000 &
-
 # Test credential issuance
-curl -X POST http://localhost:8001/api/v1/credentials \
+curl -X POST https://ccdfbd60f6ba.ngrok-free.app/issuance/api/v1/credentials \
   -H "Content-Type: application/json" \
-  -d '{"id":"test-123","holderName":"John Doe",...}'
+  -H "ngrok-skip-browser-warning: true" \
+  -d '{
+    "id": "test-123",
+    "holderName": "John Doe",
+    "issuerName": "Test University",
+    "credentialType": "Degree",
+    "issueDate": "2024-01-01"
+  }'
 
 # Test credential verification
-curl -X POST http://localhost:8002/api/v1/verify \
+curl -X POST https://ccdfbd60f6ba.ngrok-free.app/verification/api/v1/verify \
   -H "Content-Type: application/json" \
-  -d '{"id":"test-123","holderName":"John Doe",...}'
+  -H "ngrok-skip-browser-warning: true" \
+  -d '{
+    "id": "test-123",
+    "holderName": "John Doe",
+    "issuerName": "Test University",
+    "credentialType": "Degree",
+    "issueDate": "2024-01-01"
+  }'
 ```
 
-#### 3. **System Validation**
+#### 3. **Azure AKS Validation**
 ```bash
-# Check system health
+# Check cluster status
+az aks show --resource-group kube-credential-rg --name kube-credential-cluster
+
+# Check pods
 kubectl get pods -n kube-credential
+
+# Check services
+kubectl get svc -n kube-credential
+
+# View logs
+kubectl logs -n kube-credential -l app=issuance-service --tail=50
 
 # Verify data persistence
 kubectl exec -it -n kube-credential \
@@ -202,19 +281,25 @@ kubectl exec -it -n kube-credential \
 
 ---
 
-## 📈 Performance Metrics
+## 📈 Performance & Resources
 
-### **System Performance**
-- ⚡ **Response Time**: < 100ms average
-- 🔄 **Throughput**: 1000+ requests/second capable
-- 📊 **Availability**: 99.9% uptime target
-- 🔧 **Recovery**: < 30 seconds failover
+### **Azure AKS Cluster**
+- **Region**: Southeast Asia (Singapore)
+- **Node**: 1 x Standard_B2s (2 vCPU, 4GB RAM)
+- **Kubernetes Version**: 1.32
+- **Container Registry**: kubecredentialacr.azurecr.io
 
-### **Resource Efficiency**
-- 💾 **Memory**: 128Mi per pod average
-- ⚙️ **CPU**: 100m per pod average
-- 💿 **Storage**: 1Gi persistent volumes
-- 🌐 **Network**: Optimized inter-service calls
+### **Running Services**
+- **Issuance Service**: 2 replicas
+- **Verification Service**: 2 replicas
+- **NGINX Ingress**: 1 replica with LoadBalancer
+- **Persistent Storage**: 2 x 1GB Azure Managed Disks
+
+### **Resource Allocation**
+- 💾 **Memory**: 128-256Mi per pod
+- ⚙️ **CPU**: 100-200m per pod
+- 💿 **Storage**: 1Gi persistent volumes (SQLite databases)
+- 🌐 **Network**: ClusterIP services + Ingress
 
 ---
 
@@ -235,24 +320,45 @@ kubectl exec -it -n kube-credential \
 
 ---
 
-## 🌐 Deployment Options
+## 🌐 Deployment Guide
+
+### **Azure AKS Deployment** (Current Production)
+```bash
+# Prerequisites
+az login
+az account set --subscription "Azure for Students"
+
+# Deploy to Azure
+cd k8s
+./deploy-azure.sh
+
+# Cleanup
+./cleanup-azure.sh
+```
 
 ### **Local Development**
 ```bash
-# Docker Desktop Kubernetes
-./deploy-local.sh
-```
-
-### **Cloud Production (AWS EKS)**
-```bash
-# AWS EKS deployment
-./deploy-aws.sh
-```
-
-### **Docker Compose (Development)**
-```bash
-# Local development environment
+# Start services locally with Docker Compose
 docker-compose up -d
+
+# Or run services individually
+cd services/issuance-service && npm run dev
+cd services/verification-service && npm run dev
+cd frontend && npm run dev
+```
+
+### **Vercel Frontend Deployment**
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy frontend
+cd frontend
+vercel --prod
+
+# Set environment variables in Vercel dashboard:
+# VITE_ISSUANCE_API_URL=/api/proxy?service=issuance&path=/api/v1
+# VITE_VERIFICATION_API_URL=/api/proxy?service=verification&path=/api/v1
 ```
 
 ---
@@ -261,60 +367,91 @@ docker-compose up -d
 
 | Document | Description |
 |----------|-------------|
-| **[EVALUATION_REPORT.md](EVALUATION_REPORT.md)** | Comprehensive assessment against all criteria |
-| **[ARCHITECTURE.md](ARCHITECTURE.md)** | Detailed system architecture and design |
-| **[complete-evaluation.sh](complete-evaluation.sh)** | Interactive demonstration script |
+| **[README.md](README.md)** | This file - complete project overview |
+| **[ARCHITECTURE.md](ARCHITECTURE.md)** | Detailed system architecture and design decisions |
+| **[k8s/README.md](k8s/README.md)** | Kubernetes deployment guide |
 | **[API Documentation](#-api-reference)** | Complete endpoint specifications |
 
 ---
 
 ## 🎯 API Reference
 
-### **Issuance Service** (`http://localhost:8001/api/v1`)
+### **Issuance Service** 
+**Base URL:** `https://ccdfbd60f6ba.ngrok-free.app/issuance/api/v1`
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/credentials` | Issue new credential |
-| `GET` | `/credentials` | List all credentials |
-| `GET` | `/credentials/:id` | Get specific credential |
-| `GET` | `/health` | Service health check |
-| `GET` | `/worker` | Worker information |
+| Method | Endpoint | Description | Response |
+|--------|----------|-------------|----------|
+| `POST` | `/credentials` | Issue new credential | Returns credential with `issuedBy: "worker-{id}"` |
+| `GET` | `/credentials` | List all credentials | Array of issued credentials |
+| `GET` | `/credentials/:id` | Get specific credential | Single credential or 404 |
+| `GET` | `/health` | Service health check | Service status + worker info |
+| `GET` | `/worker` | Worker information | Worker ID, hostname, timestamp |
 
-### **Verification Service** (`http://localhost:8002/api/v1`)
+**Example Response (Issue Credential):**
+```json
+{
+  "success": true,
+  "message": "credential issued by worker-issuance-service-796687cb67-hwn4z-6-h3zsd1",
+  "data": {
+    "credential": {
+      "id": "test-123",
+      "holderName": "John Doe",
+      "issuerName": "Test University",
+      "credentialType": "Degree",
+      "issueDate": "2024-01-01",
+      "issuedBy": "worker-issuance-service-796687cb67-hwn4z-6-h3zsd1",
+      "timestamp": "2024-01-15T10:30:00.000Z"
+    }
+  }
+}
+```
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/verify` | Verify credential |
-| `GET` | `/history` | Verification history |
-| `GET` | `/health` | Service health check |
-| `GET` | `/worker` | Worker information |
+### **Verification Service**
+**Base URL:** `https://ccdfbd60f6ba.ngrok-free.app/verification/api/v1`
+
+| Method | Endpoint | Description | Response |
+|--------|----------|-------------|----------|
+| `POST` | `/verify` | Verify credential | Verification result with worker info |
+| `GET` | `/history` | Verification history | Array of verification attempts |
+| `GET` | `/health` | Service health check | Service status + worker info |
+| `GET` | `/worker` | Worker information | Worker ID, hostname, timestamp |
 
 ---
 
 ## 🔧 Development Setup
 
 ### **Prerequisites**
-- Docker Desktop with Kubernetes enabled
-- Node.js 20+
-- kubectl CLI
-- curl (for testing)
+- Node.js 18+
+- Docker & Docker Compose
+- Azure CLI (for cloud deployment)
+- kubectl (for Kubernetes)
+- ngrok (for HTTPS tunnel)
 
 ### **Local Development**
 ```bash
-# 1. Clone and setup
-git clone <repository>
+# 1. Clone repository
+git clone https://github.com/Souravbudke/kube-credential.git
 cd kube-credential
 
 # 2. Install dependencies
 cd frontend && npm install
 cd ../services/issuance-service && npm install
-cd ../verification-service && npm install
+cd ../services/verification-service && npm install
 
-# 3. Deploy to local Kubernetes
-./deploy-local.sh
+# 3. Start with Docker Compose
+docker-compose up -d
 
-# 4. Access application
-open http://kube-credential.local
+# 4. Or run services individually
+# Terminal 1: Issuance Service
+cd services/issuance-service && npm run dev
+
+# Terminal 2: Verification Service
+cd services/verification-service && npm run dev
+
+# Terminal 3: Frontend
+cd frontend && npm run dev
+
+# Access at http://localhost:5173
 ```
 
 ---
@@ -343,19 +480,38 @@ open http://kube-credential.local
 
 ## 🎉 Conclusion
 
-The **Kube Credential** application demonstrates a **complete mastery** of full-stack engineering with:
+The **Kube Credential** application demonstrates complete mastery of full-stack cloud-native engineering:
 
-- 🏗️ **Enterprise Architecture**: Microservices with clean separation
-- 🎨 **Modern UI/UX**: Beautiful, responsive interface with shadcn/ui
-- ☁️ **Cloud Native**: Production-ready Kubernetes deployment
-- 🧪 **Quality Assurance**: Comprehensive testing and validation
-- 📚 **Professional Standards**: Complete documentation and architecture
+- 🏗️ **Microservice Architecture**: Two independent, scalable services on Azure AKS
+- 🎨 **Modern UI/UX**: React + TypeScript + shadcn/ui deployed on Vercel
+- ☁️ **Cloud Native**: Production deployment on Azure Kubernetes Service
+- 🧪 **Quality Assurance**: Unit tests with Jest, comprehensive validation
+- 📚 **Professional Documentation**: Complete architecture and deployment guides
+- 🔒 **Security**: HTTPS, input validation, container security
+- 📦 **DevOps**: Docker, Kubernetes, CI/CD ready
 
-**This project exceeds all evaluation criteria and showcases production-ready software engineering capabilities suitable for senior full-stack engineering roles.**
+### **PRD Compliance: 100%**
+
+✅ Node.js + TypeScript backend  
+✅ Docker containerization  
+✅ Cloud hosting (Azure free tier)  
+✅ Two microservices (independently scalable)  
+✅ React + TypeScript frontend  
+✅ Two pages (Issue + Verify)  
+✅ JSON-based APIs  
+✅ **Worker ID in response: `"credential issued by worker-{id}"`**  
+✅ SQLite persistence  
+✅ Unit tests included  
+✅ Kubernetes manifests  
+✅ Complete documentation  
 
 ---
 
-**🚀 Ready for deployment • 📊 Fully tested • 📚 Comprehensively documented**
+**🌐 Live Demo:** https://kubecredential.vercel.app/  
+**📧 Contact:** [Your Email] | **📱 Phone:** [Your Phone]  
+**💻 GitHub:** https://github.com/Souravbudke/kube-credential
 
-*Built with ❤️ using modern technologies and best practices*
-*author:souravbudke*
+---
+
+*Built with ❤️ using Azure, Kubernetes, React, and TypeScript*  
+**Author:** Sourav Budke
