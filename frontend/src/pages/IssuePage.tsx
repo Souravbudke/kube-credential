@@ -151,34 +151,35 @@ export default function IssuePage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
-      {/* Header */}
-      <div className="text-center space-y-4 sm:space-y-6">
-        <div className="inline-flex items-center px-3 sm:px-4 py-2 bg-gradient-to-r from-cyan-100 to-purple-100 text-cyan-800 rounded-full text-xs sm:text-sm font-medium border border-cyan-200/50">
-          <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-          Credential Issuance Platform
+    <div className="min-h-screen bg-black">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
+        {/* Header */}
+        <div className="text-center space-y-4 sm:space-y-6">
+          <div className="inline-flex items-center px-3 sm:px-4 py-2 bg-[#1a1a1a] text-white rounded-full text-xs sm:text-sm font-medium border border-[#404040] backdrop-blur-sm">
+            <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+            Credential Issuance Platform
+          </div>
+          <div className="space-y-3 sm:space-y-4">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">Issue New Credential</h1>
+            <p className="text-base sm:text-lg text-[#a3a3a3] max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
+              Create and issue a new digital credential with custom data fields, automatic validation,
+              and comprehensive audit trails.
+            </p>
+          </div>
         </div>
-        <div className="space-y-3 sm:space-y-4">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold gradient-text">Issue New Credential</h1>
-          <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
-            Create and issue a new digital credential with custom data fields, automatic validation,
-            and comprehensive audit trails.
-          </p>
-        </div>
-      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
         {/* Main Form */}
         <div className="lg:col-span-2">
-          <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm hover-lift">
-            <CardHeader className="bg-gradient-to-br from-cyan-50 via-white to-purple-50 rounded-t-lg border-b p-4 sm:p-6 lg:p-8">
+          <Card className="shadow-2xl border-[#404040] bg-[#1a1a1a] backdrop-blur-sm">
+            <CardHeader className="bg-[#1a1a1a] rounded-t-lg border-b border-[#404040] p-4 sm:p-6 lg:p-8">
               <div className="flex items-center space-x-3 sm:space-x-4">
-                <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-gradient-to-br from-cyan-600 to-purple-600 rounded-xl sm:rounded-2xl shadow-lg">
+                <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-[#404040] rounded-xl sm:rounded-2xl shadow-lg">
                   <Award className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-white" />
                 </div>
                 <div className="flex-1">
-                  <CardTitle className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900">Credential Information</CardTitle>
-                  <CardDescription className="text-sm sm:text-base">Fill in the details for the new credential</CardDescription>
+                  <CardTitle className="text-lg sm:text-xl lg:text-2xl font-semibold text-white">Credential Information</CardTitle>
+                  <CardDescription className="text-sm sm:text-base text-[#a3a3a3]">Fill in the details for the new credential</CardDescription>
                 </div>
               </div>
             </CardHeader>
@@ -188,10 +189,10 @@ export default function IssuePage() {
                 {/* Basic Information */}
                 <div className="space-y-4 sm:space-y-6">
                   <div className="flex items-center space-x-3">
-                    <div className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 bg-cyan-100 rounded-lg">
-                      <User className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-600" />
+                    <div className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 bg-[#404040] rounded-lg">
+                      <User className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                     </div>
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-900">Basic Information</h3>
+                    <h3 className="text-base sm:text-lg font-semibold text-white">Basic Information</h3>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -204,7 +205,7 @@ export default function IssuePage() {
                         placeholder="Enter credential holder's full name"
                         value={formData.holderName}
                         onChange={(e) => handleInputChange('holderName', e.target.value)}
-                        className={`h-10 sm:h-12 transition-all duration-200 ${errors.holderName ? 'border-red-500 focus:border-red-500' : 'focus:border-cyan-500'}`}
+                        className={`h-10 sm:h-12 transition-all duration-200 bg-[#1a1a1a] border-[#404040] text-white ${errors.holderName ? 'border-red-500 focus:border-red-500' : 'focus:border-[#a3a3a3]'}`}
                       />
                       {errors.holderName && (
                         <p className="text-sm text-red-600 flex items-center">
@@ -223,7 +224,7 @@ export default function IssuePage() {
                         placeholder="Enter issuing organization"
                         value={formData.issuerName}
                         onChange={(e) => handleInputChange('issuerName', e.target.value)}
-                        className={`h-10 sm:h-12 transition-all duration-200 ${errors.issuerName ? 'border-red-500 focus:border-red-500' : 'focus:border-cyan-500'}`}
+                        className={`h-10 sm:h-12 transition-all duration-200 bg-[#1a1a1a] border-[#404040] text-white ${errors.issuerName ? 'border-red-500 focus:border-red-500' : 'focus:border-[#a3a3a3]'}`}
                       />
                       {errors.issuerName && (
                         <p className="text-sm text-red-600 flex items-center">
@@ -240,7 +241,7 @@ export default function IssuePage() {
                         Credential Type *
                       </Label>
                       <Select value={formData.credentialType} onValueChange={(value) => handleInputChange('credentialType', value)}>
-                        <SelectTrigger className="h-10 sm:h-12">
+                        <SelectTrigger className="h-10 sm:h-12 bg-[#1a1a1a] border-[#404040] text-white hover:border-[#a3a3a3]">
                           <SelectValue>
                             {formData.credentialType === 'certificate' && 'Certificate'}
                             {formData.credentialType === 'diploma' && 'Diploma'}
@@ -249,12 +250,12 @@ export default function IssuePage() {
                             {formData.credentialType === 'other' && 'Other'}
                           </SelectValue>
                         </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="certificate">Certificate</SelectItem>
-                          <SelectItem value="diploma">Diploma</SelectItem>
-                          <SelectItem value="license">License</SelectItem>
-                          <SelectItem value="badge">Badge</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
+                        <SelectContent className="bg-[#1a1a1a] border-[#404040] text-white">
+                          <SelectItem value="certificate" className="hover:bg-[#404040] focus:bg-[#404040]">Certificate</SelectItem>
+                          <SelectItem value="diploma" className="hover:bg-[#404040] focus:bg-[#404040]">Diploma</SelectItem>
+                          <SelectItem value="license" className="hover:bg-[#404040] focus:bg-[#404040]">License</SelectItem>
+                          <SelectItem value="badge" className="hover:bg-[#404040] focus:bg-[#404040]">Badge</SelectItem>
+                          <SelectItem value="other" className="hover:bg-[#404040] focus:bg-[#404040]">Other</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -262,7 +263,7 @@ export default function IssuePage() {
 
                   <div className="space-y-2">
                     <Label htmlFor="issueDate" className="text-sm font-medium flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-cyan-600" />
+                      <Calendar className="w-4 h-4 text-[#a3a3a3]" />
                       Issue Date *
                     </Label>
                     <div className="relative group">
@@ -271,7 +272,7 @@ export default function IssuePage() {
                         type="datetime-local"
                         value={formData.issueDate}
                         onChange={(e) => handleInputChange('issueDate', e.target.value)}
-                        className={`w-full h-10 sm:h-12 px-3 sm:px-4 rounded-md border bg-white text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm sm:text-base ${errors.issueDate ? 'border-red-500' : 'border-gray-300 hover:border-gray-400'}`}
+                        className={`w-full h-10 sm:h-12 px-3 sm:px-4 rounded-md border bg-[#1a1a1a] text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 text-sm sm:text-base ${errors.issueDate ? 'border-red-500' : 'border-[#404040] hover:border-[#a3a3a3]'}`}
                         required
                       />
                     </div>
@@ -285,7 +286,7 @@ export default function IssuePage() {
 
                   <div className="space-y-2">
                     <Label htmlFor="expiryDate" className="text-sm font-medium flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-purple-600" />
+                      <Clock className="w-4 h-4 text-[#a3a3a3]" />
                       Expiry Date
                     </Label>
                     <div className="relative group">
@@ -294,7 +295,7 @@ export default function IssuePage() {
                         type="datetime-local"
                         value={formData.expiryDate}
                         onChange={(e) => handleInputChange('expiryDate', e.target.value)}
-                        className={`w-full h-10 sm:h-12 px-3 sm:px-4 rounded-md border bg-white text-gray-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base ${errors.expiryDate ? 'border-red-500' : 'border-gray-300 hover:border-gray-400'}`}
+                        className={`w-full h-10 sm:h-12 px-3 sm:px-4 rounded-md border bg-[#1a1a1a] text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 text-sm sm:text-base ${errors.expiryDate ? 'border-red-500' : 'border-[#404040] hover:border-[#a3a3a3]'}`}
                       />
                     </div>
                     {errors.expiryDate && (
@@ -312,17 +313,17 @@ export default function IssuePage() {
                 <div className="space-y-4 sm:space-y-6">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
                     <div className="flex items-center space-x-3">
-                      <div className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 bg-purple-100 rounded-lg">
-                        <Building className="w-3 h-3 sm:w-4 sm:h-4 text-purple-600" />
+                      <div className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 bg-[#404040] rounded-lg">
+                        <Building className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                       </div>
-                      <h3 className="text-base sm:text-lg font-semibold text-gray-900">Custom Data Fields</h3>
+                      <h3 className="text-base sm:text-lg font-semibold text-white">Custom Data Fields</h3>
                     </div>
                     <Button
                       type="button"
                       onClick={addCustomField}
                       variant="outline"
                       size="sm"
-                      className="flex items-center space-x-2 hover:bg-purple-50 hover:border-purple-200 w-full sm:w-auto"
+                      className="flex items-center space-x-2 hover:bg-[#1a1a1a] hover:border-[#a3a3a3] w-full sm:w-auto"
                     >
                       <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
                       <span>Add Field</span>
@@ -332,23 +333,23 @@ export default function IssuePage() {
                   {customFields.length > 0 ? (
                     <div className="space-y-3 sm:space-y-4">
                       {customFields.map((field, index) => (
-                        <div key={index} className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <div key={index} className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start p-3 sm:p-4 bg-[#1a1a1a] rounded-lg border border-[#404040]">
                           <div className="flex-1 w-full">
-                            <Label className="text-sm font-medium">Field Name</Label>
+                            <Label className="text-sm font-medium text-white">Field Name</Label>
                             <Input
                               placeholder="e.g., course, grade, department"
                               value={field.key}
                               onChange={(e) => updateCustomField(index, 'key', e.target.value)}
-                              className="h-9 sm:h-10 mt-1"
+                              className="h-9 sm:h-10 mt-1 bg-[#000000] border-[#404040] text-white"
                             />
                           </div>
                           <div className="flex-1 w-full">
-                            <Label className="text-sm font-medium">Field Value</Label>
+                            <Label className="text-sm font-medium text-white">Field Value</Label>
                             <Input
                               placeholder="Enter field value"
                               value={field.value}
                               onChange={(e) => updateCustomField(index, 'value', e.target.value)}
-                              className="h-9 sm:h-10 mt-1"
+                              className="h-9 sm:h-10 mt-1 bg-[#000000] border-[#404040] text-white"
                             />
                           </div>
                           <Button
@@ -356,7 +357,7 @@ export default function IssuePage() {
                             onClick={() => removeCustomField(index)}
                             variant="outline"
                             size="icon"
-                            className="h-9 w-9 sm:h-10 sm:w-10 text-red-500 hover:text-red-700 hover:bg-red-50 mt-6 sm:mt-6"
+                            className="h-9 w-9 sm:h-10 sm:w-10 text-red-400 hover:text-red-300 hover:bg-red-900/20 mt-6 sm:mt-6"
                           >
                             <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
                           </Button>
@@ -364,10 +365,10 @@ export default function IssuePage() {
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center py-8 sm:py-12 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
-                      <Building className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 text-gray-300" />
-                      <p className="text-base sm:text-lg font-medium mb-2">No custom fields added yet</p>
-                      <p className="text-sm">Click "Add Field" to include additional data in your credential.</p>
+                    <div className="text-center py-8 sm:py-12 text-[#a3a3a3] bg-[#1a1a1a] rounded-lg border-2 border-dashed border-[#404040]">
+                      <Building className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 text-[#404040]" />
+                      <p className="text-base sm:text-lg font-medium mb-2 text-white">No custom fields added yet</p>
+                      <p className="text-sm text-[#a3a3a3]">Click "Add Field" to include additional data in your credential.</p>
                     </div>
                   )}
                 </div>
@@ -380,7 +381,7 @@ export default function IssuePage() {
                     type="submit"
                     disabled={loading}
                     size="lg"
-                    className="bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-700 hover:to-purple-700 px-6 sm:px-8 py-3 text-sm sm:text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 w-full sm:w-auto"
+                    className="bg-[#404040] hover:bg-[#a3a3a3] px-6 sm:px-8 py-3 text-sm sm:text-base font-medium text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 w-full sm:w-auto border border-[#404040]"
                   >
                     {loading ? (
                       <>
@@ -403,27 +404,27 @@ export default function IssuePage() {
         {/* Sidebar */}
         <div className="space-y-4 sm:space-y-6">
           {/* Quick Stats */}
-          <Card className="bg-gradient-to-br from-cyan-50 to-purple-50 border-cyan-200">
+          <Card className="bg-[#1a1a1a] border-[#404040]">
             <CardHeader className="pb-3 sm:pb-4 p-4 sm:p-6">
-              <CardTitle className="text-base sm:text-lg flex items-center text-cyan-800">
+              <CardTitle className="text-base sm:text-lg flex items-center text-white">
                 <Award className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 Credential Stats
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
               <div className="flex justify-between items-center">
-                <span className="text-xs sm:text-sm text-gray-600">Custom Fields</span>
-                <Badge variant="secondary" className="bg-white/60 text-xs sm:text-sm">{customFields.length}</Badge>
+                <span className="text-xs sm:text-sm text-[#a3a3a3]">Custom Fields</span>
+                <Badge variant="secondary" className="bg-[#404040] text-white text-xs sm:text-sm">{customFields.length}</Badge>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs sm:text-sm text-gray-600">Data Points</span>
-                <Badge variant="secondary" className="bg-white/60 text-xs sm:text-sm">
+                <span className="text-xs sm:text-sm text-[#a3a3a3]">Data Points</span>
+                <Badge variant="secondary" className="bg-[#404040] text-white text-xs sm:text-sm">
                   {Object.values(formData).filter(Boolean).length + customFields.reduce((acc, field) => acc + (field.key && field.value ? 1 : 0), 0)}
                 </Badge>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs sm:text-sm text-gray-600">Status</span>
-                <Badge variant={loading ? "default" : "secondary"} className={loading ? "bg-cyan-600 text-xs sm:text-sm" : "bg-white/60 text-xs sm:text-sm"}>
+                <span className="text-xs sm:text-sm text-[#a3a3a3]">Status</span>
+                <Badge variant={loading ? "default" : "secondary"} className={loading ? "bg-white text-black text-xs sm:text-sm" : "bg-[#404040] text-white text-xs sm:text-sm"}>
                   {loading ? "Processing" : "Ready"}
                 </Badge>
               </div>
@@ -431,14 +432,14 @@ export default function IssuePage() {
           </Card>
 
           {/* Tips */}
-          <Card className="bg-amber-50 border-amber-200">
+          <Card className="bg-[#1a1a1a] border-[#404040]">
             <CardHeader className="pb-3 sm:pb-4 p-4 sm:p-6">
-              <CardTitle className="text-base sm:text-lg flex items-center text-amber-800">
+              <CardTitle className="text-base sm:text-lg flex items-center text-white">
                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 Best Practices
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2 sm:space-y-3 text-sm text-amber-700 p-4 sm:p-6">
+            <CardContent className="space-y-2 sm:space-y-3 text-sm text-[#a3a3a3] p-4 sm:p-6">
               <p>• Use descriptive field names for better organization</p>
               <p>• Include relevant metadata like course names or grades</p>
               <p>• Set appropriate expiry dates for time-sensitive credentials</p>
@@ -450,17 +451,17 @@ export default function IssuePage() {
 
       {/* Result Display */}
       {result && (
-        <Alert className={`shadow-md ${result.success ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50'}`}>
+        <Alert className={`shadow-md ${result.success ? 'border-green-500 bg-green-900/20' : 'border-red-500 bg-red-900/20'}`}>
           <AlertDescription className="space-y-4">
-            <div className={`text-base sm:text-lg font-semibold ${result.success ? 'text-green-700' : 'text-red-700'}`}>
+            <div className={`text-base sm:text-lg font-semibold ${result.success ? 'text-green-300' : 'text-red-300'}`}>
               {result.message}
             </div>
 
             {result.success && result.data && (
-              <Card className="mt-4 bg-white border shadow-sm">
+              <Card className="mt-4 bg-[#1a1a1a] border-[#404040] shadow-sm">
                 <CardHeader className="pb-3 p-4 sm:p-6">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
-                    <CardTitle className="text-base sm:text-lg font-semibold text-gray-900">
+                    <CardTitle className="text-base sm:text-lg font-semibold text-white">
                       Credential Issued Successfully
                     </CardTitle>
                     <div className="flex gap-2 w-full sm:w-auto">
@@ -469,11 +470,11 @@ export default function IssuePage() {
                         size="sm"
                         variant="outline"
                         onClick={copyCredentialId}
-                        className="flex items-center gap-2 flex-1 sm:flex-none"
+                        className="flex items-center gap-2 flex-1 sm:flex-none border-[#404040] text-white hover:bg-[#404040]"
                       >
                         {copiedId ? (
                           <>
-                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
+                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
                             <span className="text-xs sm:text-sm">Copied!</span>
                           </>
                         ) : (
@@ -488,11 +489,11 @@ export default function IssuePage() {
                         size="sm"
                         variant="outline"
                         onClick={copyCredentialJson}
-                        className="flex items-center gap-2 flex-1 sm:flex-none"
+                        className="flex items-center gap-2 flex-1 sm:flex-none border-[#404040] text-white hover:bg-[#404040]"
                       >
                         {copiedJson ? (
                           <>
-                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
+                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
                             <span className="text-xs sm:text-sm">Copied!</span>
                           </>
                         ) : (
@@ -508,49 +509,49 @@ export default function IssuePage() {
                 <CardContent className="space-y-4 p-4 sm:p-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div className="space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-gray-50 rounded border gap-1 sm:gap-0">
-                        <span className="font-medium text-gray-600">Credential ID:</span>
-                        <Badge variant="outline" className="font-mono text-xs w-full sm:w-auto text-center">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                        <span className="font-medium text-[#a3a3a3]">Credential ID:</span>
+                        <Badge variant="outline" className="font-mono text-xs w-full sm:w-auto text-center bg-[#000000] text-white border-[#404040]">
                           {result.data.id}
                         </Badge>
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-gray-50 rounded border gap-1 sm:gap-0">
-                        <span className="font-medium text-gray-600">Holder Name:</span>
-                        <span className="text-gray-900 text-xs sm:text-sm">{result.data.holderName}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                        <span className="font-medium text-[#a3a3a3]">Holder Name:</span>
+                        <span className="text-white text-xs sm:text-sm">{result.data.holderName}</span>
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-gray-50 rounded border gap-1 sm:gap-0">
-                        <span className="font-medium text-gray-600">Credential Type:</span>
-                        <Badge variant="secondary" className="text-xs sm:text-sm w-full sm:w-auto text-center">{result.data.credentialType}</Badge>
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                        <span className="font-medium text-[#a3a3a3]">Credential Type:</span>
+                        <Badge variant="secondary" className="text-xs sm:text-sm w-full sm:w-auto text-center bg-[#404040] text-white">{result.data.credentialType}</Badge>
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-gray-50 rounded border gap-1 sm:gap-0">
-                        <span className="font-medium text-gray-600">Issue Date:</span>
-                        <span className="text-gray-900 text-xs">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                        <span className="font-medium text-[#a3a3a3]">Issue Date:</span>
+                        <span className="text-white text-xs">
                           {new Date(result.data.issueDate).toLocaleString()}
                         </span>
                       </div>
                     </div>
                     <div className="space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-gray-50 rounded border gap-1 sm:gap-0">
-                        <span className="font-medium text-gray-600">Issuer Name:</span>
-                        <span className="text-gray-900 text-xs sm:text-sm">{result.data.issuerName}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                        <span className="font-medium text-[#a3a3a3]">Issuer Name:</span>
+                        <span className="text-white text-xs sm:text-sm">{result.data.issuerName}</span>
                       </div>
                       {result.data.expiryDate && (
-                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-gray-50 rounded border gap-1 sm:gap-0">
-                          <span className="font-medium text-gray-600">Expiry Date:</span>
-                          <span className="text-gray-900 text-xs">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                          <span className="font-medium text-[#a3a3a3]">Expiry Date:</span>
+                          <span className="text-white text-xs">
                             {new Date(result.data.expiryDate).toLocaleString()}
                           </span>
                         </div>
                       )}
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-gray-50 rounded border gap-1 sm:gap-0">
-                        <span className="font-medium text-gray-600">Issued By Worker:</span>
-                        <Badge variant="outline" className="font-mono text-xs w-full sm:w-auto text-center">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                        <span className="font-medium text-[#a3a3a3]">Issued By Worker:</span>
+                        <Badge variant="outline" className="font-mono text-xs w-full sm:w-auto text-center bg-[#000000] text-white border-[#404040]">
                           {result.data.issuedBy.split('-').slice(-1)[0]}
                         </Badge>
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-gray-50 rounded border gap-1 sm:gap-0">
-                        <span className="font-medium text-gray-600">Timestamp:</span>
-                        <span className="text-gray-900 text-xs">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                        <span className="font-medium text-[#a3a3a3]">Timestamp:</span>
+                        <span className="text-white text-xs">
                           {new Date(result.data.timestamp).toLocaleString()}
                         </span>
                       </div>
@@ -558,15 +559,15 @@ export default function IssuePage() {
                   </div>
 
                   {Object.keys(result.data.data).length > 0 && (
-                    <div className="pt-3 border-t">
-                      <h4 className="font-medium text-gray-900 mb-3 text-sm">
+                    <div className="pt-3 border-t border-[#404040]">
+                      <h4 className="font-medium text-white mb-3 text-sm">
                         Custom Data:
                       </h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         {Object.entries(result.data.data).map(([key, value]) => (
-                          <div key={key} className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 bg-gray-50 rounded border text-xs sm:text-sm gap-1 sm:gap-0">
-                            <span className="font-medium text-gray-600">{key}:</span>
-                            <span className="text-gray-900 break-all">{String(value)}</span>
+                          <div key={key} className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 bg-[#1a1a1a] rounded border border-[#404040] text-xs sm:text-sm gap-1 sm:gap-0">
+                            <span className="font-medium text-[#a3a3a3]">{key}:</span>
+                            <span className="text-white break-all">{String(value)}</span>
                           </div>
                         ))}
                       </div>
@@ -578,6 +579,7 @@ export default function IssuePage() {
           </AlertDescription>
         </Alert>
       )}
+      </div>
     </div>
   );
 }

@@ -64,7 +64,7 @@ export default function HealthPage() {
     color: string;
     loading: boolean;
   }) => (
-    <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+    <div className="bg-[#1a1a1a] rounded-lg shadow-md p-4 sm:p-6 border border-[#404040]">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2 sm:gap-0">
         <div className="flex items-center">
           {loading ? (
@@ -72,7 +72,7 @@ export default function HealthPage() {
           ) : (
             <Server className={`w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 text-${color}-600`} />
           )}
-          <h3 className="text-base sm:text-lg font-semibold text-gray-900">{title}</h3>
+          <h3 className="text-base sm:text-lg font-semibold text-white">{title}</h3>
         </div>
         <div className="flex items-center">
           {loading ? (
@@ -132,126 +132,128 @@ export default function HealthPage() {
           <p className="text-xs sm:text-sm">{error}</p>
         </div>
       )}
-    </div>
+      </div>
   );
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
-        <div className="flex items-center">
-          <Activity className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 mr-3" />
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Service Health Status</h1>
-            <p className="text-sm sm:text-base text-gray-600">Monitor the health and status of microservices</p>
+    <div className="min-h-screen bg-black">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+          <div className="flex items-center">
+            <Activity className="w-6 h-6 sm:w-8 sm:h-8 text-white mr-3" />
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Service Health Status</h1>
+              <p className="text-sm sm:text-base text-[#a3a3a3]">Monitor the health and status of microservices</p>
+            </div>
           </div>
-        </div>
-        <button
-          onClick={checkHealth}
-          disabled={issuanceLoading || verificationLoading}
-          className="flex items-center px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto justify-center"
-        >
-          <RefreshCw className={`w-4 h-4 mr-2 ${(issuanceLoading || verificationLoading) ? 'animate-spin' : ''}`} />
-          Refresh
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
-        <ServiceCard
-          title="Credential Issuance Service"
-          health={issuanceHealth}
-          error={issuanceError}
-          color="blue"
-          loading={issuanceLoading}
-        />
-        <ServiceCard
-          title="Credential Verification Service"
-          health={verificationHealth}
-          error={verificationError}
-          color="green"
-          loading={verificationLoading}
-        />
-      </div>
-
-      {/* Overall System Status */}
-      <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
-        <div className="flex items-center mb-4">
-          <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 mr-3" />
-          <h3 className="text-lg font-semibold text-gray-900">Overall System Status</h3>
+          <button
+            onClick={checkHealth}
+            disabled={issuanceLoading || verificationLoading}
+            className="flex items-center px-3 sm:px-4 py-2 bg-[#404040] hover:bg-[#a3a3a3] text-white rounded-md disabled:opacity-50 text-sm sm:text-base w-full sm:w-auto justify-center border border-[#404040]"
+          >
+            <RefreshCw className={`w-4 h-4 mr-2 ${(issuanceLoading || verificationLoading) ? 'animate-spin' : ''}`} />
+            Refresh
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-          <div className="text-center">
-            <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full mx-auto mb-2 sm:mb-3 flex items-center justify-center ${
-              issuanceHealth && verificationHealth ? 'bg-green-100' : issuanceLoading || verificationLoading ? 'bg-yellow-100' : 'bg-red-100'
-            }`}>
-              {issuanceLoading || verificationLoading ? (
-                <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-600 animate-spin" />
-              ) : issuanceHealth && verificationHealth ? (
-                <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
-              ) : (
-                <AlertCircle className="w-6 h-6 sm:w-8 sm:h-8 text-red-600" />
-              )}
-            </div>
-            <h4 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base">System Health</h4>
-            <p className={`text-xs sm:text-sm ${
-              issuanceLoading || verificationLoading ? 'text-yellow-600' : issuanceHealth && verificationHealth ? 'text-green-600' : 'text-red-600'
-            }`}>
-              {issuanceLoading || verificationLoading ? 'Checking Services...' : issuanceHealth && verificationHealth ? 'All Services Healthy' : 'Service Issues Detected'}
-            </p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-blue-100 mx-auto mb-2 sm:mb-3 flex items-center justify-center">
-              <Server className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
-            </div>
-            <h4 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base">Active Services</h4>
-            <p className="text-xs sm:text-sm text-gray-600">
-              {issuanceLoading || verificationLoading
-                ? 'Checking...'
-                : [issuanceHealth, verificationHealth].filter(Boolean).length} of 2 services running
-            </p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-purple-100 mx-auto mb-2 sm:mb-3 flex items-center justify-center">
-              <Activity className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
-            </div>
-            <h4 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base">Last Updated</h4>
-            <p className="text-xs sm:text-sm text-gray-600">
-              {new Date().toLocaleTimeString()}
-            </p>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
+          <ServiceCard
+            title="Credential Issuance Service"
+            health={issuanceHealth}
+            error={issuanceError}
+            color="blue"
+            loading={issuanceLoading}
+          />
+          <ServiceCard
+            title="Credential Verification Service"
+            health={verificationHealth}
+            error={verificationError}
+            color="green"
+            loading={verificationLoading}
+          />
         </div>
 
-        {(!issuanceHealth || !verificationHealth) && !(issuanceLoading || verificationLoading) && (
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-yellow-50 border border-yellow-200 rounded-md">
-            <div className="flex items-center">
-              <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 mr-2" />
-              <p className="text-yellow-800 font-medium text-sm sm:text-base">Service Connectivity Issues</p>
-            </div>
-            <p className="text-yellow-700 text-xs sm:text-sm mt-1">
-              Some services are not reachable. Please ensure all microservices are running and accessible.
-            </p>
+        {/* Overall System Status */}
+        <div className="bg-[#1a1a1a] rounded-lg shadow-md p-4 sm:p-6 border border-[#404040]">
+          <div className="flex items-center mb-4">
+            <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-white mr-3" />
+            <h3 className="text-lg font-semibold text-white">Overall System Status</h3>
           </div>
-        )}
 
-        {(issuanceLoading || verificationLoading) && (
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-blue-50 border border-blue-200 rounded-md">
-            <div className="flex items-center">
-              <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 mr-2 animate-spin" />
-              <p className="text-blue-800 font-medium text-sm sm:text-base">Checking Service Status...</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            <div className="text-center">
+              <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full mx-auto mb-2 sm:mb-3 flex items-center justify-center ${
+                issuanceHealth && verificationHealth ? 'bg-green-900/20 border border-green-500/30' : issuanceLoading || verificationLoading ? 'bg-yellow-900/20 border border-yellow-500/30' : 'bg-red-900/20 border border-red-500/30'
+              }`}>
+                {issuanceLoading || verificationLoading ? (
+                  <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 animate-spin" />
+                ) : issuanceHealth && verificationHealth ? (
+                  <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-green-400" />
+                ) : (
+                  <AlertCircle className="w-6 h-6 sm:w-8 sm:h-8 text-red-400" />
+                )}
+              </div>
+              <h4 className="font-semibold text-white mb-1 text-sm sm:text-base">System Health</h4>
+              <p className={`text-xs sm:text-sm ${
+                issuanceLoading || verificationLoading ? 'text-yellow-400' : issuanceHealth && verificationHealth ? 'text-green-400' : 'text-red-400'
+              }`}>
+                {issuanceLoading || verificationLoading ? 'Checking Services...' : issuanceHealth && verificationHealth ? 'All Services Healthy' : 'Service Issues Detected'}
+              </p>
             </div>
-            <p className="text-blue-700 text-xs sm:text-sm mt-1">
-              Performing health checks on all microservices. Please wait...
-            </p>
-          </div>
-        )}
-      </div>
 
-      <div className="mt-6 sm:mt-8 text-center">
-        <p className="text-gray-500 text-xs sm:text-sm">
-          Health checks are performed in real-time. Refresh to get the latest status.
-        </p>
+            <div className="text-center">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#404040] mx-auto mb-2 sm:mb-3 flex items-center justify-center border border-[#404040]">
+                <Server className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+              </div>
+              <h4 className="font-semibold text-white mb-1 text-sm sm:text-base">Active Services</h4>
+              <p className="text-xs sm:text-sm text-[#a3a3a3]">
+                {issuanceLoading || verificationLoading
+                  ? 'Checking...'
+                  : [issuanceHealth, verificationHealth].filter(Boolean).length} of 2 services running
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#404040] mx-auto mb-2 sm:mb-3 flex items-center justify-center border border-[#404040]">
+                <Activity className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+              </div>
+              <h4 className="font-semibold text-white mb-1 text-sm sm:text-base">Last Updated</h4>
+              <p className="text-xs sm:text-sm text-[#a3a3a3]">
+                {new Date().toLocaleTimeString()}
+              </p>
+            </div>
+          </div>
+
+          {(!issuanceHealth || !verificationHealth) && !(issuanceLoading || verificationLoading) && (
+            <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-yellow-900/20 border border-yellow-500/30 rounded-md">
+              <div className="flex items-center">
+                <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 mr-2" />
+                <p className="text-yellow-200 font-medium text-sm sm:text-base">Service Connectivity Issues</p>
+              </div>
+              <p className="text-yellow-300 text-xs sm:text-sm mt-1">
+                Some services are not reachable. Please ensure all microservices are running and accessible.
+              </p>
+            </div>
+          )}
+
+          {(issuanceLoading || verificationLoading) && (
+            <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-blue-900/20 border border-blue-500/30 rounded-md">
+              <div className="flex items-center">
+                <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 mr-2 animate-spin" />
+                <p className="text-blue-200 font-medium text-sm sm:text-base">Checking Service Status...</p>
+              </div>
+              <p className="text-blue-300 text-xs sm:text-sm mt-1">
+                Performing health checks on all microservices. Please wait...
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6 sm:mt-8 text-center">
+          <p className="text-[#a3a3a3] text-xs sm:text-sm">
+            Health checks are performed in real-time. Refresh to get the latest status.
+          </p>
+        </div>
       </div>
     </div>
   );
