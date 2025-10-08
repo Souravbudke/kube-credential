@@ -1,92 +1,85 @@
-# Kubernetes Deployment Guide
+# Kubernetes Deployment Guide - Azure AKS
 
-This directory contains Kubernetes manifests and deployment scripts for the Kube Credential application.
+This directory contains Kubernetes manifests and deployment scripts for the Kube Credential application backend services deployed on **Azure Kubernetes Service (AKS)**.
 
-## Quick Start
+## Current Architecture
 
-### Local Development (Recommended for Testing)
+- **Frontend**: Deployed on Vercel (https://kubecredential.vercel.app/)
+- **Backend**: Deployed on Azure AKS (Southeast Asia region)
+- **HTTPS Tunnel**: ngrok (for demo/development)
 
-1. **Prerequisites:**
-   - Docker Desktop with Kubernetes enabled, OR
-   - Minikube, OR
-   - Kind cluster
+## Quick Start - Azure AKS
 
-2. **Deploy:**
-   ```bash
-   cd k8s
-   chmod +x deploy-local.sh
-   ./deploy-local.sh
-   ```
+### Prerequisites
+- Azure CLI installed and configured (`az login`)
+- Azure for Students subscription (or your own subscription)
+- kubectl installed and configured
 
-### AWS EKS Deployment
+### Deploy to Azure AKS
+```bash
+cd k8s
+chmod +x deploy-azure.sh
+./deploy-azure.sh
+```
 
-1. **Prerequisites:**
-   - AWS CLI configured (`aws configure`)
-   - kubectl installed
-   - eksctl installed (optional, for cluster creation)
+### Access the Application
+- **Frontend**: https://kubecredential.vercel.app/
+- **Backend API**: Available via ngrok tunnel (see deployment output)
+- **Direct API**: `https://your-ngrok-url.ngrok-free.app/`
 
-2. **Deploy:**
-   ```bash
-   cd k8s
-   chmod +x deploy-aws.sh
-   ./deploy-aws.sh
-   ```
-
-### Generic Kubernetes Cluster
-
-1. **Prerequisites:**
-   - kubectl configured to your cluster
-   - Ingress controller installed
-
-2. **Deploy:**
-   ```bash
-   cd k8s
-   chmod +x deploy.sh
-   ./deploy.sh
-   ```
+### Cleanup
+```bash
+cd k8s
+./cleanup-azure.sh
+```
 
 ## Deployment Components
 
-### Core Services
+### Core Services (Azure AKS)
 - **Issuance Service**: Handles credential creation and storage
 - **Verification Service**: Validates credentials against the issuance service
-- **Frontend**: React application for user interface
+
+### Frontend (Vercel)
+- **React Application**: Hosted on Vercel with global CDN
+- **Serverless Proxy**: Handles API routing to Azure AKS
 
 ### Kubernetes Resources
 - **Namespace**: `kube-credential` - Isolates all application resources
 - **ConfigMaps**: Application configuration and environment variables
-- **PersistentVolumes**: SQLite database storage for both services
-- **Deployments**: Container orchestration with health checks
+- **PersistentVolumes**: SQLite database storage using Azure Managed Disks
+- **Deployments**: Container orchestration with health checks and 2 replicas each
 - **Services**: Internal service discovery and load balancing
-- **Ingress**: External access routing
-- **HPA**: Horizontal Pod Autoscaling based on CPU/memory usage
+- **Ingress**: External access routing via NGINX controller
+- **Azure Container Registry**: Stores Docker images for services
 
 ## Architecture
 
 ```
-Internet → Ingress → Frontend (React App)
-                  ↓
-                  ├→ Issuance Service (Port 3000)
-                  └→ Verification Service (Port 3000)
-                                    ↓
-                              Calls Issuance Service
+Internet → Vercel (Frontend) → ngrok (HTTPS) → Azure AKS Ingress → Backend Services
+                                                                ↓
+                                                        ├→ Issuance Service (Port 3000)
+                                                        └→ Verification Service (Port 3000)
+                                                                                        ↓
+                                                                                Calls Issuance Service
 ```
 
 ## Scaling Configuration
 
-- **Issuance Service**: 2-10 replicas (auto-scales at 70% CPU)
-- **Verification Service**: 2-10 replicas (auto-scales at 70% CPU)  
-- **Frontend**: 2-5 replicas (auto-scales at 70% CPU)
+- **Issuance Service**: 2 replicas (can be scaled to 10+)
+- **Verification Service**: 2 replicas (can be scaled to 10+)
+- **Frontend**: Auto-scaling handled by Vercel platform
 
 ## Access URLs
 
-### Local Development
-- Frontend: `http://kube-credential.local`
-- Issuance API: `http://kube-credential.local/issuance`
-- Verification API: `http://kube-credential.local/verification`
+### Production (Azure AKS + Vercel)
+- **Frontend**: https://kubecredential.vercel.app/
+- **Backend API**: Available via ngrok tunnel (see deployment output)
+- **Direct API**: `https://your-ngrok-url.ngrok-free.app/`
 
-### AWS EKS
-- External Load Balancer URL (provided after deployment)
+### Azure AKS Resources
+- **Load Balancer**: 40.90.188.59 (NGINX Ingress)
+- **Container Registry**: kubecredentialacr.azurecr.io
+- **Region**: Southeast Asia (Singapore)
 
 ## Monitoring Commands
 
@@ -103,13 +96,9 @@ kubectl get pods -n kube-credential -w
 # Check logs
 kubectl logs -n kube-credential -l app=issuance-service -f
 kubectl logs -n kube-credential -l app=verification-service -f
-kubectl logs -n kube-credential -l app=frontend -f
 
 # Check ingress
 kubectl get ingress -n kube-credential
-
-# Check HPA status
-kubectl get hpa -n kube-credential
 ```
 
 ## Troubleshooting
@@ -140,30 +129,28 @@ kubectl port-forward -n kube-credential service/verification-service 3002:3000
 
 ## Cleanup
 
-### Local Development
-```bash
-kubectl delete namespace kube-credential
-```
-
-### AWS EKS
+### Azure AKS
 ```bash
 # Delete application
 kubectl delete namespace kube-credential
 
-# Delete cluster (if you created one)
-eksctl delete cluster --name kube-credential-cluster --region us-west-2
+# Optional: Delete Azure resources (run cleanup-azure.sh script)
+cd k8s
+./cleanup-azure.sh
 ```
 
 ## Cost Considerations
 
-### AWS EKS Estimated Costs (us-west-2)
-- **EKS Control Plane**: ~$73/month
-- **Worker Nodes** (2x t3.medium): ~$60/month
-- **Load Balancer**: ~$16/month
-- **EBS Volumes**: ~$2/month
-- **Total**: ~$151/month
+### Azure AKS Estimated Costs (Southeast Asia)
+- **AKS Control Plane**: FREE (Azure for Students)
+- **Worker Node** (Standard_B2s: 2vCPU, 4GB RAM): ~$30/month
+- **Container Registry (Basic)**: ~$5/month
+- **Load Balancer**: ~$20/month
+- **Managed Disks (2GB)**: ~$0.40/month
+- **Network Bandwidth**: ~$2/month
+- **Total**: ~$57-58/month
 
-**💡 Tip**: Use AWS Free Tier eligible instances (t2.micro/t3.micro) for development and testing to minimize costs.
+**💡 Tip**: Use Azure for Students subscription for free credits, or scale down to smaller instances for development.
 
 ## Security Notes
 

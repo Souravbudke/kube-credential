@@ -31,64 +31,71 @@ graph TB
         A[Web Browser<br/>React + shadcn/ui]
         B[API Client<br/>REST/HTTP]
     end
-    
+
     subgraph "Load Balancer"
-        C[nginx Ingress Controller<br/>kube-credential.local]
+        C[nginx Ingress Controller<br/>40.90.188.59]
     end
-    
-    subgraph "Frontend Service"
-        D[Frontend Pod 1<br/>React App<br/>Port 80]
-        E[Frontend Pod 2<br/>React App<br/>Port 80]
-    end
-    
-    subgraph "Backend Services"
+
+    subgraph "Backend Services - Azure AKS"
         F[Issuance Service Pod 1<br/>Node.js + TypeScript<br/>Port 3000]
         G[Issuance Service Pod 2<br/>Node.js + TypeScript<br/>Port 3000]
         H[Verification Service Pod 1<br/>Node.js + TypeScript<br/>Port 3000]
         I[Verification Service Pod 2<br/>Node.js + TypeScript<br/>Port 3000]
     end
-    
-    subgraph "Data Layer"
+
+    subgraph "Data Layer - Azure Disk"
         J[Issuance Database<br/>SQLite<br/>Persistent Volume]
         K[Verification Database<br/>SQLite<br/>Persistent Volume]
     end
-    
-    subgraph "Infrastructure"
-        L[Kubernetes Cluster<br/>Docker Desktop / AWS EKS]
-        M[Persistent Volumes<br/>hostpath / EBS]
-        N[Service Discovery<br/>Kubernetes DNS]
+
+    subgraph "Infrastructure - Azure"
+        L[Azure Kubernetes Service<br/>Southeast Asia]
+        M[Azure Container Registry<br/>kubecredentialacr.azurecr.io]
+        N[Persistent Volumes<br/>Azure Managed Disks]
     end
-    
-    A --> C
-    B --> C
-    C --> D
-    C --> E
+
+    subgraph "External Services"
+        O[Vercel Platform<br/>Frontend Hosting]
+        P[ngrok Tunnel<br/>HTTPS Bridge]
+    end
+
+    A -->|HTTPS| O
+    O -->|HTTPS| P
+    P -->|HTTP| C
+
     C --> F
     C --> G
     C --> H
     C --> I
-    
+
     F --> J
     G --> J
     H --> K
     I --> K
-    
+
     H -.->|Cross-service| F
     I -.->|Cross-service| G
-    
+
     F --> N
     G --> N
     H --> N
     I --> N
-    
-    J --> M
-    K --> M
-    
+
+    F --> M
+    G --> M
+    H --> M
+    I --> M
+
+    J --> N
+    K --> N
+
     style A fill:#e1f5fe
     style F fill:#fff3e0
     style H fill:#fff3e0
     style J fill:#f3e5f5
     style K fill:#f3e5f5
+    style O fill:#e3f2fd
+    style P fill:#fff3e0
 ```
 
 ---
@@ -114,11 +121,13 @@ graph TB
 
 ### Infrastructure
 - **Containerization**: Docker with multi-stage builds
-- **Orchestration**: Kubernetes
+- **Orchestration**: Azure Kubernetes Service (AKS)
+- **Container Registry**: Azure Container Registry (ACR)
 - **Service Mesh**: Kubernetes native service discovery
 - **Load Balancing**: nginx ingress controller
-- **Storage**: Persistent Volumes (hostpath/EBS)
+- **Storage**: Azure Managed Disks (Persistent Volumes)
 - **Monitoring**: Kubernetes health checks
+- **External Access**: ngrok HTTPS tunnel (development/demo)
 
 ### Development & Testing
 - **Testing Framework**: Jest + Supertest
@@ -292,37 +301,34 @@ metadata:
 
 #### Persistent Storage
 - **PVC**: 1Gi volumes for each database
-- **Storage Class**: hostpath (local) / gp2 (AWS)
+- **Storage Class**: Azure Managed Disks (default)
 
 ### Container Architecture
 
 ```mermaid
 graph TB
     subgraph "Docker Images"
-        A[Frontend Image<br/>nginx:alpine<br/>Static React build]
+        A[Frontend Image<br/>Vercel Build<br/>React + shadcn/ui]
         B[Issuance Service Image<br/>node:20-alpine<br/>TypeScript application]
         C[Verification Service Image<br/>node:20-alpine<br/>TypeScript application]
     end
     
-    subgraph "Kubernetes Pods"
-        D[Frontend Pods<br/>2 replicas]
-        E[Issuance Pods<br/>2 replicas]
-        F[Verification Pods<br/>2 replicas]
+    subgraph "Kubernetes Pods - Azure AKS"
+        D[Issuance Pods<br/>2 replicas<br/>Azure Container Registry]
+        E[Verification Pods<br/>2 replicas<br/>Azure Container Registry]
     end
     
-    subgraph "Storage"
-        G[Frontend: In-memory<br/>Static files]
-        H[Issuance: PVC<br/>SQLite database]
-        I[Verification: PVC<br/>SQLite database]
+    subgraph "Storage - Azure"
+        F[Issuance: Azure Managed Disk<br/>SQLite database]
+        G[Verification: Azure Managed Disk<br/>SQLite database]
     end
     
-    A --> D
-    B --> E
-    C --> F
+    A -.->|Deployed to| H[Vercel Platform]
+    B --> D
+    C --> E
     
-    D --> G
-    E --> H
-    F --> I
+    D --> F
+    E --> G
 ```
 
 ---
