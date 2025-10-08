@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AlertCircle, Search, User, Calendar, Building, FileText, Sparkles, Scan, Code, Eye } from 'lucide-react';
+import { AlertCircle, Search, User, Calendar, Building, FileText, Code } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -133,44 +133,12 @@ export default function VerifyPage() {
     }
   };
 
-  const loadSampleCredential = () => {
-    const sample = {
-      id: 'cred-1234567890-abc123',
-      holderName: 'John Doe',
-      credentialType: 'certificate',
-      issueDate: '2024-01-01T10:00:00.000Z',
-      expiryDate: '2025-01-01T10:00:00.000Z',
-      issuerName: 'Tech University',
-      data: {
-        course: 'Full Stack Development',
-        grade: 'A+',
-        credits: 120
-      }
-    };
-
-    if (inputMethod === 'json') {
-      setJsonInput(JSON.stringify(sample, null, 2));
-    } else {
-      setCredentialData({
-        id: sample.id,
-        holderName: sample.holderName,
-        credentialType: sample.credentialType,
-        issueDate: sample.issueDate.slice(0, 16),
-        expiryDate: sample.expiryDate.slice(0, 16),
-        issuerName: sample.issuerName,
-        customData: JSON.stringify(sample.data, null, 2),
-      });
-    }
-    setErrors({});
-  };
-
   return (
     <div className="min-h-screen bg-black">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
       {/* Header */}
       <div className="text-center space-y-6">
         <div className="inline-flex items-center px-4 py-2 bg-[#1a1a1a] text-white rounded-full text-sm font-medium border border-[#404040] backdrop-blur-sm">
-          <Sparkles className="w-4 h-4 mr-2" />
           Credential Verification Platform
         </div>
         <div className="space-y-4">
@@ -181,30 +149,17 @@ export default function VerifyPage() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="max-w-4xl mx-auto">
         {/* Main Verification Form */}
-        <div className="lg:col-span-2">
-          <Card className="shadow-2xl border-[#404040] bg-[#1a1a1a] backdrop-blur-sm">
+        <Card className="shadow-2xl border-[#404040] bg-[#1a1a1a] backdrop-blur-sm">
             <CardHeader className="bg-[#1a1a1a] rounded-t-lg border-b border-[#404040]">
               <div className="flex items-center space-x-4">
                 <div className="flex items-center justify-center w-14 h-14 bg-[#404040] rounded-2xl shadow-lg">
-                  <Scan className="w-7 h-7 text-white" />
+                  <Search className="w-7 h-7 text-white" />
                 </div>
                 <div className="flex-1">
                   <CardTitle className="text-2xl font-semibold text-white">Credential Verification</CardTitle>
                   <CardDescription className="text-base text-[#a3a3a3]">Enter credential details to verify authenticity</CardDescription>
-                </div>
-                <div className="flex items-center justify-end">
-                  <Button
-                    type="button"
-                    onClick={loadSampleCredential}
-                    variant="outline"
-                    size="sm"
-                    className="bg-[#1a1a1a] hover:bg-[#404040] border-[#404040] text-white"
-                  >
-                    <Eye className="w-4 h-4 mr-2" />
-                    Load Sample
-                  </Button>
                 </div>
               </div>
             </CardHeader>
@@ -243,11 +198,11 @@ export default function VerifyPage() {
                   <div className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="id" className="text-sm font-medium">
+                        <Label htmlFor="id" className="text-sm font-medium text-white">
                           Credential ID *
                         </Label>
                         <div className="relative">
-                          <FileText className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                          <FileText className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white" />
                           <Input
                             id="id"
                             name="id"
@@ -266,11 +221,11 @@ export default function VerifyPage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="holderName" className="text-sm font-medium">
+                        <Label htmlFor="holderName" className="text-sm font-medium text-white">
                           Holder Name *
                         </Label>
                         <div className="relative">
-                          <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#a3a3a3]" />
+                          <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white" />
                           <Input
                             id="holderName"
                             name="holderName"
@@ -291,7 +246,7 @@ export default function VerifyPage() {
 
                     <div className="grid md:grid-cols-3 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="credentialType" className="text-sm font-medium">
+                        <Label htmlFor="credentialType" className="text-sm font-medium text-white">
                           Credential Type *
                         </Label>
                         <Select value={credentialData.credentialType} onValueChange={(value) => handleInputChange({ target: { name: 'credentialType', value } } as any)}>
@@ -309,8 +264,8 @@ export default function VerifyPage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="issueDate" className="text-sm font-medium flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-[#a3a3a3]" />
+                        <Label htmlFor="issueDate" className="text-sm font-medium text-white flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-white" />
                           Issue Date *
                         </Label>
                         <div className="relative group">
@@ -320,7 +275,7 @@ export default function VerifyPage() {
                             type="datetime-local"
                             value={credentialData.issueDate}
                             onChange={handleInputChange}
-                            className={`w-full h-12 px-4 rounded-md border bg-[#1a1a1a] text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 ${errors.issueDate ? 'border-red-500' : 'border-[#404040] hover:border-[#a3a3a3]'}`}
+                            className={`w-full h-12 px-4 rounded-md border bg-[#1a1a1a] text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 ${errors.issueDate ? 'border-red-500' : 'border-[#404040] hover:border-[#a3a3a3]'} [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:filter-[invert(100%)]`}
                           />
                         </div>
                         {errors.issueDate && (
@@ -332,8 +287,8 @@ export default function VerifyPage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="expiryDate" className="text-sm font-medium flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-[#a3a3a3]" />
+                        <Label htmlFor="expiryDate" className="text-sm font-medium text-white flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-white" />
                           Expiry Date
                         </Label>
                         <div className="relative group">
@@ -343,18 +298,18 @@ export default function VerifyPage() {
                             type="datetime-local"
                             value={credentialData.expiryDate}
                             onChange={handleInputChange}
-                            className={`w-full h-12 px-4 rounded-md border bg-[#1a1a1a] text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 ${errors.expiryDate ? 'border-red-500' : 'border-[#404040] hover:border-[#a3a3a3]'}`}
+                            className={`w-full h-12 px-4 rounded-md border bg-[#1a1a1a] text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 ${errors.expiryDate ? 'border-red-500' : 'border-[#404040] hover:border-[#a3a3a3]'} [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:filter-[invert(100%)]`}
                           />
                         </div>
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="issuerName" className="text-sm font-medium">
+                      <Label htmlFor="issuerName" className="text-sm font-medium text-white">
                         Issuer Name *
                       </Label>
                       <div className="relative">
-                        <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#a3a3a3]" />
+                        <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white" />
                         <Input
                           id="issuerName"
                           name="issuerName"
@@ -373,7 +328,7 @@ export default function VerifyPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="customData" className="text-sm font-medium">
+                      <Label htmlFor="customData" className="text-sm font-medium text-white">
                         Custom Data (JSON format)
                       </Label>
                       <Textarea
@@ -396,7 +351,7 @@ export default function VerifyPage() {
                 ) : (
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <Label htmlFor="jsonInput" className="text-sm font-medium">
+                      <Label htmlFor="jsonInput" className="text-sm font-medium text-white">
                         Credential JSON *
                       </Label>
                       <Textarea
@@ -450,157 +405,111 @@ export default function VerifyPage() {
           </Card>
         </div>
 
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Verification Status */}
-          <Card className="bg-[#1a1a1a] border-[#404040]">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg flex items-center text-white">
-                <Scan className="w-5 h-5 mr-2" />
-                Verification Process
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-[#a3a3a3]">Status</span>
-                <Badge variant={loading ? "default" : "secondary"} className={loading ? "bg-white text-black" : "bg-[#404040] text-white"}>
-                  {loading ? "Verifying" : "Ready"}
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-[#a3a3a3]">Input Method</span>
-                <Badge variant="outline" className="bg-[#404040] text-white capitalize">{inputMethod}</Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-[#a3a3a3]">Validation</span>
-                <Badge variant="secondary" className="bg-[#404040] text-white">
-                  {Object.keys(errors).length === 0 ? "Valid" : "Errors"}
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
+        {/* Result Display */}
+        {result && (
+          <div className="mt-8">
+            <Alert className={`shadow-md ${result.isValid ? 'border-green-500 bg-green-900/20' : 'border-red-500 bg-red-900/20'}`}>
+              <AlertDescription className="space-y-4">
+                <div className={`text-lg font-semibold ${result.isValid ? 'text-green-300' : 'text-red-300'}`}>
+                  {result.isValid ? 'Credential Verified Successfully' : 'Credential Verification Failed'}
+                </div>
 
-          {/* Tips */}
-          <Card className="bg-[#1a1a1a] border-[#404040]">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg flex items-center text-white">
-                <Sparkles className="w-5 h-5 mr-2" />
-                Verification Tips
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm text-[#a3a3a3]">
-              <p>• Ensure all required fields are filled correctly</p>
-              <p>• Use exact credential ID from the issuer</p>
-              <p>• Verify JSON format for custom data fields</p>
-              <p>• Check expiry dates for time-sensitive credentials</p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+                <p className="text-sm text-[#a3a3a3]">{result.message}</p>
 
-      {/* Result Display */}
-      {result && (
-        <Alert className={`shadow-md ${result.isValid ? 'border-green-500 bg-green-900/20' : 'border-red-500 bg-red-900/20'}`}>
-          <AlertDescription className="space-y-4">
-            <div className={`text-lg font-semibold ${result.isValid ? 'text-green-300' : 'text-red-300'}`}>
-              {result.isValid ? 'Credential Verified Successfully' : 'Credential Verification Failed'}
-            </div>
-
-            <p className="text-sm text-[#a3a3a3]">{result.message}</p>
-
-            {result.isValid && result.credential && (
-              <Card className="bg-[#1a1a1a] border-[#404040] shadow-sm mt-4">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base font-semibold text-white">
-                    Verified Credential Details
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center p-3 bg-[#1a1a1a] rounded border border-[#404040]">
-                        <span className="font-medium text-[#a3a3a3]">Credential ID:</span>
-                        <Badge variant="outline" className="font-mono text-xs bg-[#000000] text-white border-[#404040]">
-                          {result.credential.id}
-                        </Badge>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-[#1a1a1a] rounded border border-[#404040]">
-                        <span className="font-medium text-[#a3a3a3]">Holder Name:</span>
-                        <span className="text-white">{result.credential.holderName}</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-[#1a1a1a] rounded border border-[#404040]">
-                        <span className="font-medium text-[#a3a3a3]">Credential Type:</span>
-                        <Badge variant="secondary" className="bg-[#404040] text-white">{result.credential.credentialType}</Badge>
-                      </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center p-3 bg-[#1a1a1a] rounded border border-[#404040]">
-                        <span className="font-medium text-[#a3a3a3]">Issuer Name:</span>
-                        <span className="text-white">{result.credential.issuerName}</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-[#1a1a1a] rounded border border-[#404040]">
-                        <span className="font-medium text-[#a3a3a3]">Issue Date:</span>
-                        <span className="text-white text-xs">
-                          {new Date(result.credential.issueDate).toLocaleString()}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-[#1a1a1a] rounded border border-[#404040]">
-                        <span className="font-medium text-[#a3a3a3]">Verified At:</span>
-                        <span className="text-white text-xs">
-                          {new Date(result.verificationTimestamp).toLocaleString()}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {result.credential.expiryDate && (
-                    <div className="p-3 bg-[#1a1a1a] rounded border border-[#404040]">
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium text-[#a3a3a3]">Expiry Date:</span>
-                        <span className="text-white text-xs">
-                          {new Date(result.credential.expiryDate).toLocaleString()}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {Object.keys(result.credential.data).length > 0 && (
-                    <div className="pt-3 border-t border-[#404040]">
-                      <h4 className="font-medium text-white mb-3 text-sm">Additional Data:</h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        {Object.entries(result.credential.data).map(([key, value]) => (
-                          <div key={key} className="flex justify-between items-center p-2 bg-[#1a1a1a] rounded border border-[#404040] text-sm">
-                            <span className="font-medium text-[#a3a3a3]">{key}:</span>
-                            <span className="text-white">{String(value)}</span>
+                {result.isValid && result.credential && (
+                  <Card className="bg-[#1a1a1a] border-[#404040] shadow-sm mt-4">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-base font-semibold text-white">
+                        Verified Credential Details
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center p-3 bg-[#1a1a1a] rounded border border-[#404040]">
+                            <span className="font-medium text-[#a3a3a3]">Credential ID:</span>
+                            <Badge variant="outline" className="font-mono text-xs bg-[#000000] text-white border-[#404040]">
+                              {result.credential.id}
+                            </Badge>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                          <div className="flex justify-between items-center p-3 bg-[#1a1a1a] rounded border border-[#404040]">
+                            <span className="font-medium text-[#a3a3a3]">Holder Name:</span>
+                            <span className="text-white">{result.credential.holderName}</span>
+                          </div>
+                          <div className="flex justify-between items-center p-3 bg-[#1a1a1a] rounded border border-[#404040]">
+                            <span className="font-medium text-[#a3a3a3]">Credential Type:</span>
+                            <Badge variant="secondary" className="bg-[#404040] text-white">{result.credential.credentialType}</Badge>
+                          </div>
+                        </div>
 
-                  <div className="pt-3 border-t border-[#404040]">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
-                      <div className="text-[#a3a3a3]">
-                        <span className="font-medium">Issued by: </span>
-                        <Badge variant="outline" className="font-mono text-xs bg-[#000000] text-white border-[#404040]">
-                          {result.credential.issuedBy.split('-').slice(-1)[0]}
-                        </Badge>
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center p-3 bg-[#1a1a1a] rounded border border-[#404040]">
+                            <span className="font-medium text-[#a3a3a3]">Issuer Name:</span>
+                            <span className="text-white">{result.credential.issuerName}</span>
+                          </div>
+                          <div className="flex justify-between items-center p-3 bg-[#1a1a1a] rounded border border-[#404040]">
+                            <span className="font-medium text-[#a3a3a3]">Issue Date:</span>
+                            <span className="text-white text-xs">
+                              {new Date(result.credential.issueDate).toLocaleString()}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center p-3 bg-[#1a1a1a] rounded border border-[#404040]">
+                            <span className="font-medium text-[#a3a3a3]">Verified At:</span>
+                            <span className="text-white text-xs">
+                              {new Date(result.verificationTimestamp).toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="text-[#a3a3a3]">
-                        <span className="font-medium">Verified by: </span>
-                        <Badge variant="outline" className="font-mono text-xs bg-[#000000] text-white border-[#404040]">
-                          {result.verifiedBy.split('-').slice(-1)[0]}
-                        </Badge>
+
+                      {result.credential.expiryDate && (
+                        <div className="p-3 bg-[#1a1a1a] rounded border border-[#404040]">
+                          <div className="flex justify-between items-center">
+                            <span className="font-medium text-[#a3a3a3]">Expiry Date:</span>
+                            <span className="text-white text-xs">
+                              {new Date(result.credential.expiryDate).toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                      {Object.keys(result.credential.data).length > 0 && (
+                        <div className="pt-3 border-t border-[#404040]">
+                          <h4 className="font-medium text-white mb-3 text-sm">Additional Data:</h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            {Object.entries(result.credential.data).map(([key, value]) => (
+                              <div key={key} className="flex justify-between items-center p-2 bg-[#1a1a1a] rounded border border-[#404040] text-sm">
+                                <span className="font-medium text-[#a3a3a3]">{key}:</span>
+                                <span className="text-white">{String(value)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="pt-3 border-t border-[#404040]">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                          <div className="text-[#a3a3a3]">
+                            <span className="font-medium">Issued by: </span>
+                            <Badge variant="outline" className="font-mono text-xs bg-[#000000] text-white border-[#404040]">
+                              {result.credential.issuedBy.split('-').slice(-1)[0]}
+                            </Badge>
+                          </div>
+                          <div className="text-[#a3a3a3]">
+                            <span className="font-medium">Verified by: </span>
+                            <Badge variant="outline" className="font-mono text-xs bg-[#000000] text-white border-[#404040]">
+                              {result.verifiedBy.split('-').slice(-1)[0]}
+                            </Badge>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </AlertDescription>
-        </Alert>
-      )}
+                    </CardContent>
+                  </Card>
+                )}
+              </AlertDescription>
+            </Alert>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -168,10 +168,9 @@ export default function IssuePage() {
           </div>
         </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+      <div className="max-w-4xl mx-auto">
         {/* Main Form */}
-        <div className="lg:col-span-2">
-          <Card className="shadow-2xl border-[#404040] bg-[#1a1a1a] backdrop-blur-sm">
+        <Card className="shadow-2xl border-[#404040] bg-[#1a1a1a] backdrop-blur-sm">
             <CardHeader className="bg-[#1a1a1a] rounded-t-lg border-b border-[#404040] p-4 sm:p-6 lg:p-8">
               <div className="flex items-center space-x-3 sm:space-x-4">
                 <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-[#404040] rounded-xl sm:rounded-2xl shadow-lg">
@@ -197,7 +196,7 @@ export default function IssuePage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="holderName" className="text-sm font-medium">
+                      <Label htmlFor="holderName" className="text-sm font-medium text-white">
                         Holder Name *
                       </Label>
                       <Input
@@ -216,7 +215,7 @@ export default function IssuePage() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="issuerName" className="text-sm font-medium">
+                      <Label htmlFor="issuerName" className="text-sm font-medium text-white">
                         Issuer Name *
                       </Label>
                       <Input
@@ -237,7 +236,7 @@ export default function IssuePage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="credentialType" className="text-sm font-medium">
+                      <Label htmlFor="credentialType" className="text-sm font-medium text-white">
                         Credential Type *
                       </Label>
                       <Select value={formData.credentialType} onValueChange={(value) => handleInputChange('credentialType', value)}>
@@ -262,8 +261,8 @@ export default function IssuePage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="issueDate" className="text-sm font-medium flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-[#a3a3a3]" />
+                    <Label htmlFor="issueDate" className="text-sm font-medium text-white flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-white" />
                       Issue Date *
                     </Label>
                     <div className="relative group">
@@ -272,7 +271,7 @@ export default function IssuePage() {
                         type="datetime-local"
                         value={formData.issueDate}
                         onChange={(e) => handleInputChange('issueDate', e.target.value)}
-                        className={`w-full h-10 sm:h-12 px-3 sm:px-4 rounded-md border bg-[#1a1a1a] text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 text-sm sm:text-base ${errors.issueDate ? 'border-red-500' : 'border-[#404040] hover:border-[#a3a3a3]'}`}
+                        className={`w-full h-10 sm:h-12 px-3 sm:px-4 rounded-md border bg-[#1a1a1a] text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 text-sm sm:text-base ${errors.issueDate ? 'border-red-500' : 'border-[#404040] hover:border-[#a3a3a3]'} [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:filter-[invert(100%)]`}
                         required
                       />
                     </div>
@@ -285,8 +284,8 @@ export default function IssuePage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="expiryDate" className="text-sm font-medium flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-[#a3a3a3]" />
+                    <Label htmlFor="expiryDate" className="text-sm font-medium text-white flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-white" />
                       Expiry Date
                     </Label>
                     <div className="relative group">
@@ -295,7 +294,7 @@ export default function IssuePage() {
                         type="datetime-local"
                         value={formData.expiryDate}
                         onChange={(e) => handleInputChange('expiryDate', e.target.value)}
-                        className={`w-full h-10 sm:h-12 px-3 sm:px-4 rounded-md border bg-[#1a1a1a] text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 text-sm sm:text-base ${errors.expiryDate ? 'border-red-500' : 'border-[#404040] hover:border-[#a3a3a3]'}`}
+                        className={`w-full h-10 sm:h-12 px-3 sm:px-4 rounded-md border bg-[#1a1a1a] text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 text-sm sm:text-base ${errors.expiryDate ? 'border-red-500' : 'border-[#404040] hover:border-[#a3a3a3]'} [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:filter-[invert(100%)]`}
                       />
                     </div>
                     {errors.expiryDate && (
@@ -323,7 +322,7 @@ export default function IssuePage() {
                       onClick={addCustomField}
                       variant="outline"
                       size="sm"
-                      className="flex items-center space-x-2 hover:bg-[#1a1a1a] hover:border-[#a3a3a3] w-full sm:w-auto"
+                      className="flex items-center space-x-2 bg-white hover:bg-gray-200 text-black border-white hover:border-gray-300 w-full sm:w-auto"
                     >
                       <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
                       <span>Add Field</span>
@@ -401,184 +400,138 @@ export default function IssuePage() {
           </Card>
         </div>
 
-        {/* Sidebar */}
-        <div className="space-y-4 sm:space-y-6">
-          {/* Quick Stats */}
-          <Card className="bg-[#1a1a1a] border-[#404040]">
-            <CardHeader className="pb-3 sm:pb-4 p-4 sm:p-6">
-              <CardTitle className="text-base sm:text-lg flex items-center text-white">
-                <Award className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                Credential Stats
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
-              <div className="flex justify-between items-center">
-                <span className="text-xs sm:text-sm text-[#a3a3a3]">Custom Fields</span>
-                <Badge variant="secondary" className="bg-[#404040] text-white text-xs sm:text-sm">{customFields.length}</Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-xs sm:text-sm text-[#a3a3a3]">Data Points</span>
-                <Badge variant="secondary" className="bg-[#404040] text-white text-xs sm:text-sm">
-                  {Object.values(formData).filter(Boolean).length + customFields.reduce((acc, field) => acc + (field.key && field.value ? 1 : 0), 0)}
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-xs sm:text-sm text-[#a3a3a3]">Status</span>
-                <Badge variant={loading ? "default" : "secondary"} className={loading ? "bg-white text-black text-xs sm:text-sm" : "bg-[#404040] text-white text-xs sm:text-sm"}>
-                  {loading ? "Processing" : "Ready"}
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
+        {/* Result Display */}
+        {result && (
+          <div className="mt-8">
+            <Alert className={`shadow-md ${result.success ? 'border-green-500 bg-green-900/20' : 'border-red-500 bg-red-900/20'}`}>
+              <AlertDescription className="space-y-4">
+                <div className={`text-base sm:text-lg font-semibold ${result.success ? 'text-green-300' : 'text-red-300'}`}>
+                  {result.message}
+                </div>
 
-          {/* Tips */}
-          <Card className="bg-[#1a1a1a] border-[#404040]">
-            <CardHeader className="pb-3 sm:pb-4 p-4 sm:p-6">
-              <CardTitle className="text-base sm:text-lg flex items-center text-white">
-                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                Best Practices
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 sm:space-y-3 text-sm text-[#a3a3a3] p-4 sm:p-6">
-              <p>• Use descriptive field names for better organization</p>
-              <p>• Include relevant metadata like course names or grades</p>
-              <p>• Set appropriate expiry dates for time-sensitive credentials</p>
-              <p>• Verify all information before issuing</p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+                {result.success && result.data && (
+                  <Card className="mt-4 bg-[#1a1a1a] border-[#404040] shadow-sm">
+                    <CardHeader className="pb-3 p-4 sm:p-6">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
+                        <CardTitle className="text-base sm:text-lg font-semibold text-white">
+                          Credential Issued Successfully
+                        </CardTitle>
+                        <div className="flex gap-2 w-full sm:w-auto">
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            onClick={copyCredentialId}
+                            className="flex items-center gap-2 flex-1 sm:flex-none border-[#404040] text-white hover:bg-[#404040]"
+                          >
+                            {copiedId ? (
+                              <>
+                                <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
+                                <span className="text-xs sm:text-sm">Copied!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3 h-3 sm:w-4 sm:h-4" />
+                                <span className="text-xs sm:text-sm">Copy ID</span>
+                              </>
+                            )}
+                          </Button>
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            onClick={copyCredentialJson}
+                            className="flex items-center gap-2 flex-1 sm:flex-none border-[#404040] text-white hover:bg-[#404040]"
+                          >
+                            {copiedJson ? (
+                              <>
+                                <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
+                                <span className="text-xs sm:text-sm">Copied!</span>
+                              </>
+                            ) : (
+                              <>
+                                <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
+                                <span className="text-xs sm:text-sm">Copy JSON</span>
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4 p-4 sm:p-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div className="space-y-3">
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                            <span className="font-medium text-[#a3a3a3]">Credential ID:</span>
+                            <Badge variant="outline" className="font-mono text-xs w-full sm:w-auto text-center bg-[#000000] text-white border-[#404040]">
+                              {result.data.id}
+                            </Badge>
+                          </div>
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                            <span className="font-medium text-[#a3a3a3]">Holder Name:</span>
+                            <span className="text-white text-xs sm:text-sm">{result.data.holderName}</span>
+                          </div>
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                            <span className="font-medium text-[#a3a3a3]">Credential Type:</span>
+                            <Badge variant="secondary" className="text-xs sm:text-sm w-full sm:w-auto text-center bg-[#404040] text-white">{result.data.credentialType}</Badge>
+                          </div>
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                            <span className="font-medium text-[#a3a3a3]">Issue Date:</span>
+                            <span className="text-white text-xs">
+                              {new Date(result.data.issueDate).toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="space-y-3">
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                            <span className="font-medium text-[#a3a3a3]">Issuer Name:</span>
+                            <span className="text-white text-xs sm:text-sm">{result.data.issuerName}</span>
+                          </div>
+                          {result.data.expiryDate && (
+                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                              <span className="font-medium text-[#a3a3a3]">Expiry Date:</span>
+                              <span className="text-white text-xs">
+                                {new Date(result.data.expiryDate).toLocaleString()}
+                              </span>
+                            </div>
+                          )}
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                            <span className="font-medium text-[#a3a3a3]">Issued By Worker:</span>
+                            <Badge variant="outline" className="font-mono text-xs w-full sm:w-auto text-center bg-[#000000] text-white border-[#404040]">
+                              {result.data.issuedBy.split('-').slice(-1)[0]}
+                            </Badge>
+                          </div>
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
+                            <span className="font-medium text-[#a3a3a3]">Timestamp:</span>
+                            <span className="text-white text-xs">
+                              {new Date(result.data.timestamp).toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
 
-      {/* Result Display */}
-      {result && (
-        <Alert className={`shadow-md ${result.success ? 'border-green-500 bg-green-900/20' : 'border-red-500 bg-red-900/20'}`}>
-          <AlertDescription className="space-y-4">
-            <div className={`text-base sm:text-lg font-semibold ${result.success ? 'text-green-300' : 'text-red-300'}`}>
-              {result.message}
-            </div>
-
-            {result.success && result.data && (
-              <Card className="mt-4 bg-[#1a1a1a] border-[#404040] shadow-sm">
-                <CardHeader className="pb-3 p-4 sm:p-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
-                    <CardTitle className="text-base sm:text-lg font-semibold text-white">
-                      Credential Issued Successfully
-                    </CardTitle>
-                    <div className="flex gap-2 w-full sm:w-auto">
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        onClick={copyCredentialId}
-                        className="flex items-center gap-2 flex-1 sm:flex-none border-[#404040] text-white hover:bg-[#404040]"
-                      >
-                        {copiedId ? (
-                          <>
-                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
-                            <span className="text-xs sm:text-sm">Copied!</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-3 h-3 sm:w-4 sm:h-4" />
-                            <span className="text-xs sm:text-sm">Copy ID</span>
-                          </>
-                        )}
-                      </Button>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        onClick={copyCredentialJson}
-                        className="flex items-center gap-2 flex-1 sm:flex-none border-[#404040] text-white hover:bg-[#404040]"
-                      >
-                        {copiedJson ? (
-                          <>
-                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
-                            <span className="text-xs sm:text-sm">Copied!</span>
-                          </>
-                        ) : (
-                          <>
-                            <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
-                            <span className="text-xs sm:text-sm">Copy JSON</span>
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4 p-4 sm:p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div className="space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
-                        <span className="font-medium text-[#a3a3a3]">Credential ID:</span>
-                        <Badge variant="outline" className="font-mono text-xs w-full sm:w-auto text-center bg-[#000000] text-white border-[#404040]">
-                          {result.data.id}
-                        </Badge>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
-                        <span className="font-medium text-[#a3a3a3]">Holder Name:</span>
-                        <span className="text-white text-xs sm:text-sm">{result.data.holderName}</span>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
-                        <span className="font-medium text-[#a3a3a3]">Credential Type:</span>
-                        <Badge variant="secondary" className="text-xs sm:text-sm w-full sm:w-auto text-center bg-[#404040] text-white">{result.data.credentialType}</Badge>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
-                        <span className="font-medium text-[#a3a3a3]">Issue Date:</span>
-                        <span className="text-white text-xs">
-                          {new Date(result.data.issueDate).toLocaleString()}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
-                        <span className="font-medium text-[#a3a3a3]">Issuer Name:</span>
-                        <span className="text-white text-xs sm:text-sm">{result.data.issuerName}</span>
-                      </div>
-                      {result.data.expiryDate && (
-                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
-                          <span className="font-medium text-[#a3a3a3]">Expiry Date:</span>
-                          <span className="text-white text-xs">
-                            {new Date(result.data.expiryDate).toLocaleString()}
-                          </span>
+                      {Object.keys(result.data.data).length > 0 && (
+                        <div className="pt-3 border-t border-[#404040]">
+                          <h4 className="font-medium text-white mb-3 text-sm">
+                            Custom Data:
+                          </h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            {Object.entries(result.data.data).map(([key, value]) => (
+                              <div key={key} className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 bg-[#1a1a1a] rounded border border-[#404040] text-xs sm:text-sm gap-1 sm:gap-0">
+                                <span className="font-medium text-[#a3a3a3]">{key}:</span>
+                                <span className="text-white break-all">{String(value)}</span>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       )}
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
-                        <span className="font-medium text-[#a3a3a3]">Issued By Worker:</span>
-                        <Badge variant="outline" className="font-mono text-xs w-full sm:w-auto text-center bg-[#000000] text-white border-[#404040]">
-                          {result.data.issuedBy.split('-').slice(-1)[0]}
-                        </Badge>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 bg-[#1a1a1a] rounded border border-[#404040] gap-1 sm:gap-0">
-                        <span className="font-medium text-[#a3a3a3]">Timestamp:</span>
-                        <span className="text-white text-xs">
-                          {new Date(result.data.timestamp).toLocaleString()}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {Object.keys(result.data.data).length > 0 && (
-                    <div className="pt-3 border-t border-[#404040]">
-                      <h4 className="font-medium text-white mb-3 text-sm">
-                        Custom Data:
-                      </h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        {Object.entries(result.data.data).map(([key, value]) => (
-                          <div key={key} className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 bg-[#1a1a1a] rounded border border-[#404040] text-xs sm:text-sm gap-1 sm:gap-0">
-                            <span className="font-medium text-[#a3a3a3]">{key}:</span>
-                            <span className="text-white break-all">{String(value)}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            )}
-          </AlertDescription>
-        </Alert>
-      )}
+                    </CardContent>
+                  </Card>
+                )}
+              </AlertDescription>
+            </Alert>
+          </div>
+        )}
       </div>
     </div>
   );

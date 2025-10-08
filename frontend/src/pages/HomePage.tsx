@@ -1,27 +1,39 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ParticleTextEffect } from '@/components/ParticleTextEffect';
 import { BentoCard } from '@/components/BentoCard';
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-black">
       {/* Hero Section */}
-      <section className="py-20 px-4 relative overflow-hidden min-h-screen flex flex-col justify-between bg-black">
-        <div className="flex-1 flex items-start justify-center pt-20">
-          <ParticleTextEffect words={["KUBE", "CREDENTIAL", "PLATFORM", "KUBE"]} />
+      <section className="py-12 sm:py-16 md:py-20 px-4 min-h-screen flex flex-col justify-between bg-black">
+        <div className="flex-1 flex items-start justify-center pt-8 sm:pt-12 md:pt-20">
+          <div className="text-center animate-fade-in">
+            <div className="relative">
+              <h1 className="text-6xl sm:text-5xl md:text-7xl lg:text-9xl xl:text-[12rem] font-black mb-4 sm:mb-6 tracking-tight leading-none drop-shadow-2xl bg-gradient-to-b from-white to-gray-300 bg-clip-text text-transparent">
+                KUBE
+              </h1>
+              <div className="absolute inset-0 text-6xl sm:text-5xl md:text-7xl lg:text-9xl xl:text-[12rem] font-black text-white/10 blur-sm -z-10">
+                KUBE
+              </div>
+            </div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-bold text-gray-200 mb-6 sm:mb-8 tracking-wide drop-shadow-lg">
+              CREDENTIAL PLATFORM
+            </h2>
+            <div className="w-32 sm:w-48 h-1 bg-gradient-to-r from-transparent via-white to-transparent mx-auto opacity-60 rounded-full"></div>
+          </div>
         </div>
 
-        <div className="container mx-auto text-center relative z-10 pb-8">
+        <div className="container mx-auto text-center pb-6 sm:pb-8">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 text-balance">
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white mb-4 sm:mb-6 text-balance px-4">
               The next-generation, cloud-native platform for issuing, verifying, and managing
               <span className="text-gray-300"> digital credentials </span>
               with enterprise-grade security and infinite scalability.
             </h2>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button size="lg" asChild className="bg-white hover:bg-gray-200 text-black">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4">
+              <Button size="lg" asChild className="bg-white hover:bg-gray-200 text-black w-full sm:w-auto">
                 <Link to="/issue">
                   Issue Credential
                 </Link>
@@ -30,38 +42,41 @@ export default function HomePage() {
                 size="lg"
                 variant="outline"
                 asChild
-                className="border-gray-600 text-white hover:bg-gray-800 bg-transparent"
+                className="border-gray-600 text-white hover:bg-gray-800 bg-transparent w-full sm:w-auto"
               >
                 <Link to="/verify">Verify Credential</Link>
               </Button>
             </div>
 
             {/* Company Logos */}
-            <div className="mt-16 mb-8">
+            <div className="mt-8 sm:mt-12 md:mt-16 mb-6 sm:mb-8">
               <div className="group relative m-auto max-w-6xl">
                 <div className="flex flex-col items-center md:flex-row">
-                  <div className="md:max-w-44 md:border-r md:border-gray-600 md:pr-6 mb-4 md:mb-0">
-                    <p className="text-end text-sm text-gray-400">Powering the best </p>
+                  <div className="md:max-w-44 md:border-r md:border-gray-600 md:pr-6 mb-3 sm:mb-4 md:mb-0">
+                    <p className="text-end text-xs sm:text-sm text-gray-400">Powering the best</p>
                   </div>
-                  <div className="relative py-6 md:w-[calc(100%-11rem)]">
-                    <div className="flex items-center justify-center gap-12 md:gap-16 flex-wrap">
-                      <div className="text-gray-400 text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                  <div className="relative py-4 sm:py-6 md:w-[calc(100%-11rem)]">
+                    <div className="flex items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-12 xl:gap-16 flex-wrap">
+                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         Node.js
                       </div>
-                      <div className="text-gray-400 text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         TypeScript
                       </div>
-                      <div className="text-gray-400 text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         Docker
                       </div>
-                      <div className="text-gray-400 text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         Kubernetes
                       </div>
-                      <div className="text-gray-400 text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         React
                       </div>
-                      <div className="text-gray-400 text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
                         SQLite
+                      </div>
+                      <div className="text-gray-400 text-xs sm:text-sm font-semibold opacity-60 hover:opacity-100 transition-opacity">
+                        Azure
                       </div>
                     </div>
                   </div>
@@ -73,31 +88,19 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 bg-black">
-        <svg width="0" height="0" className="absolute">
-          <defs>
-            <filter id="noise" x="0%" y="0%" width="100%" height="100%">
-              <feTurbulence baseFrequency="0.4" numOctaves="2" result="noise" seed="2" type="fractalNoise" />
-              <feColorMatrix in="noise" type="saturate" values="0" />
-              <feComponentTransfer>
-                <feFuncA type="discrete" tableValues="0.02 0.04 0.06" />
-              </feComponentTransfer>
-              <feComposite operator="over" in2="SourceGraphic" />
-            </filter>
-          </defs>
-        </svg>
+      <section id="features" className="py-12 sm:py-16 md:py-20 px-4 bg-black">
 
         <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
               Powerful Features
             </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto px-4">
               Everything you need to manage credentials at scale
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[600px]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 h-auto md:h-[600px]">
             <div className="md:col-span-2">
               <BentoCard
                 title="Issue Credentials"

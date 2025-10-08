@@ -101,7 +101,7 @@ export default function HealthPage() {
       {loading ? (
         <div className="flex items-center justify-center py-6 sm:py-8">
           <Loader2 className={`w-6 h-6 sm:w-8 sm:h-8 text-${color}-600 animate-spin`} />
-          <span className="ml-2 sm:ml-3 text-sm sm:text-base text-gray-600">Checking service health...</span>
+          <span className="ml-2 sm:ml-3 text-sm sm:text-base text-white">Checking service health...</span>
         </div>
       ) : health ? (
         <div className="space-y-2 sm:space-y-3">
