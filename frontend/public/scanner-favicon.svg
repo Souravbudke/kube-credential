@@ -1,0 +1,30 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Scanner body -->
+  <rect x="4" y="8" width="24" height="16" rx="2" fill="#2563eb" stroke="#1d4ed8" stroke-width="2"/>
+
+  <!-- Scanner screen -->
+  <rect x="6" y="10" width="20" height="12" rx="1" fill="#0f172a"/>
+
+  <!-- Scanner line (animated scan line) -->
+  <rect x="6" y="10" width="20" height="2" fill="#10b981" opacity="0.8">
+    <animate attributeName="y" values="10;20;10" dur="2s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Corner brackets (scanner target) -->
+  <path d="M8 12 L12 12 L12 8" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M24 12 L20 12 L20 8" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M8 20 L12 20 L12 24" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M24 20 L20 20 L20 24" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Center crosshair -->
+  <line x1="16" y1="14" x2="16" y2="18" stroke="#10b981" stroke-width="1"/>
+  <line x1="14" y1="16" x2="18" y2="16" stroke="#10b981" stroke-width="1"/>
+
+  <!-- Signal waves -->
+  <circle cx="26" cy="16" r="1" fill="#ef4444" opacity="0.7">
+    <animate attributeName="r" values="1;3;1" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="26" cy="16" r="2" stroke="#ef4444" stroke-width="1" fill="none" opacity="0.5">
+    <animate attributeName="r" values="2;4;2" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+</svg>
