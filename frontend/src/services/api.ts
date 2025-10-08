@@ -1,32 +1,30 @@
 import axios from 'axios';
 import { ApiResponse, Credential, IssuedCredential, VerificationResult, WorkerInfo } from '../types';
 
-const ISSUANCE_API_URL = import.meta.env.VITE_ISSUANCE_API_URL || 'http://localhost:3001';
-const VERIFICATION_API_URL = import.meta.env.VITE_VERIFICATION_API_URL || 'http://localhost:3002';
+const IS_PRODUCTION = import.meta.env.PROD;
+const ISSUANCE_API_URL = IS_PRODUCTION ? '/api/proxy?service=issuance&path=' : 'http://localhost:3001/api/v1';
+const VERIFICATION_API_URL = IS_PRODUCTION ? '/api/proxy?service=verification&path=' : 'http://localhost:3002/api/v1';
 
 // Debug logging
 console.log('🔧 API Configuration:');
-console.log('  VITE_ISSUANCE_API_URL:', import.meta.env.VITE_ISSUANCE_API_URL);
-console.log('  VITE_VERIFICATION_API_URL:', import.meta.env.VITE_VERIFICATION_API_URL);
+console.log('  Environment:', IS_PRODUCTION ? 'Production' : 'Development');
 console.log('  Using Issuance URL:', ISSUANCE_API_URL);
 console.log('  Using Verification URL:', VERIFICATION_API_URL);
 
 class ApiService {
   private issuanceApi = axios.create({
-    baseURL: `${ISSUANCE_API_URL}/api/v1`,
+    baseURL: ISSUANCE_API_URL,
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
-      'User-Agent': 'KubeCredential/1.0',
     },
   });
 
   private verificationApi = axios.create({
-    baseURL: `${VERIFICATION_API_URL}/api/v1`,
+    baseURL: VERIFICATION_API_URL,
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
-      'User-Agent': 'KubeCredential/1.0',
     },
   });
 
