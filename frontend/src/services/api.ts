@@ -17,6 +17,7 @@ class ApiService {
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 
@@ -25,6 +26,7 @@ class ApiService {
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
+      'ngrok-skip-browser-warning': 'true',
     },
   });
 
